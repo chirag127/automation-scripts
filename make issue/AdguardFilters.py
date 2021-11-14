@@ -96,9 +96,7 @@ def main():
 
     wait(0.1)
 
-
     open_last_closed_tab()
-
 
     wait(0.1)
 

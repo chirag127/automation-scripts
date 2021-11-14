@@ -7,7 +7,6 @@ def click_new_issue_easylist_on_bookmark_bar():
     pyautogui.click(x=25, y=100)
 
 
-
 # define the function to extract the domain name from the url in the text
 def extract_domain_name_from_url(url):
     domain_name = url.split("/")[2]
