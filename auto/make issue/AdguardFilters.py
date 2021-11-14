@@ -111,10 +111,10 @@ if __name__ == "__main__":
 
     while True:
 
-        if keyboard.is_pressed('ctrl + d'):
+        if keyboard.is_pressed('ctrl + q'):
             main()
 
-        elif keyboard.is_pressed('ctrl + c'):
+        elif keyboard.is_pressed('ctrl + a'):
             submitissue.main()
 
         else:
