@@ -9,12 +9,10 @@ def wait(x):
 
     sleep(x)
 
-# define a function that will wait for the "z" key to be pressed
-
-
+# define a function that will wait for the "do" key to be pressed
 def wait_for_do_key():
     while True:
-        if keyboard.is_pressed('z'):
+        if keyboard.is_pressed('alt + d'):
             break
         wait(0.1)
 

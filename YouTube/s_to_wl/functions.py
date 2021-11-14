@@ -12,6 +12,6 @@ def wait(seconds):
 
 def wait_for_do_key():
     while True:
-        if keyboard.is_pressed("z"):
+        if keyboard.is_pressed("alt + z"):
             break
         sleep(0.01)

@@ -31,7 +31,9 @@ def open_adguard_filter_new_issues_url():
 
 def main():
 
-    click_url_bar()
+    # click_url_bar()
+
+    wait(0.2)
 
     copyselectedtext()
 
@@ -94,7 +96,9 @@ def main():
 
     wait(0.1)
 
+
     open_last_closed_tab()
+
 
     wait(0.1)
 
