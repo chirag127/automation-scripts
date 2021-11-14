@@ -1,4 +1,3 @@
-
 #! python3
 # make a program that will make a github issue when user press "z" key on the keyboard on https://github.com/AdguardTeam/AdguardFilters/issues/new
 import pyautogui
