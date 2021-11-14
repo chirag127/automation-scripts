@@ -26,7 +26,7 @@ def click_on_checkbox_on_subcription():
 
 # defining the function to click on the "Add to queue" button at (x,y) coordinates = (800,570)
 def click_on_add_to_queue_on_subcription():
-    pyautogui.moveTo(730, 625)
+    pyautogui.moveTo(730, 580)
     pyautogui.click()
 
 # click on expand at 1400,680
