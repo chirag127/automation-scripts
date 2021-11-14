@@ -2,7 +2,6 @@ import pyautogui
 import webbrowser
 from functions import *
 
-y_add10totrans = 0
 
 # Open the web browser and navigate to the URL https://www.youtube.com/feed/subscriptions
 
@@ -15,24 +14,22 @@ def open_subscriptions_page_in_edge():
 
 # defining the function to click on the 3 dots button at (x,y) coordinates = (680,480)
 def click_on_three_dots_on_subcription():
-    pyautogui.moveTo(680, 460 + y_add10totrans)
+    pyautogui.moveTo(680, 471)
     pyautogui.click()
 
 
 # defining the function to click on the checkbox button to select all videos on the page at (x,y) coordinates = (730,490)
 def click_on_checkbox_on_subcription():
-    pyautogui.moveTo(730, 470 + y_add10totrans)
+    pyautogui.moveTo(730, 490)
     pyautogui.click()
 
 
 # defining the function to click on the "Add to queue" button at (x,y) coordinates = (800,570)
 def click_on_add_to_queue_on_subcription():
-    pyautogui.moveTo(800, 550 + y_add10totrans)
+    pyautogui.moveTo(730, 625)
     pyautogui.click()
 
 # click on expand at 1400,680
-
-
 def click_on_expand_on_subcription():
     pyautogui.moveTo(1400, 680)
     pyautogui.click()
