@@ -30,6 +30,8 @@ def click_on_add_to_queue_on_subcription():
     pyautogui.click()
 
 # click on expand at 1400,680
+
+
 def click_on_expand_on_subcription():
     pyautogui.moveTo(1400, 680)
     pyautogui.click()
