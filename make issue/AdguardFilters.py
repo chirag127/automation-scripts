@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 import clipboard
 from functions import *
 import webbrowser
+import submitissue
 
 # first we will click on the "z" key
 # click on the url bar at the top of the page
@@ -26,7 +27,10 @@ import webbrowser
 # first open the adguard filters new issues url
 # url https://github.com/AdguardTeam/AdguardFilters/issues/new
 def open_adguard_filter_new_issues_url():
+
     webbrowser.open("https://github.com/AdguardTeam/AdguardFilters/issues/new")
+
+   #  webbrowser.open("https://github.com/chirag127/test/issues/new")
 
 
 def main():
@@ -105,9 +109,13 @@ def main():
 
 if __name__ == "__main__":
 
-    # make a infinite loop that will wait for the "z" key to be pressed
     while True:
 
-        wait_for_do_key()
+        if keyboard.is_pressed('alt + d'):
+            main()
 
-        main()
+        elif keyboard.is_pressed('alt + z'):
+            submitissue.main()
+
+        else:
+            wait(0.1)

@@ -9,14 +9,12 @@ def wait(x):
 
     sleep(x)
 
-# define a function that will wait for the "do" key to be pressed
 
+# define a function that will go to next tab using pyautogui.hotkey('ctrl', 'tab')
+def go_to_next_tab():
 
-def wait_for_do_key():
-    while True:
-        if keyboard.is_pressed('alt + d'):
-            break
-        wait(0.1)
+    pyautogui.hotkey('ctrl', 'tab')
+
 
 # click on the new issue button on the bookmark bar at the top of the page at X,Y coordinates of the screen
 
@@ -53,18 +51,6 @@ def click_screenshot_holder():
 # move focus out of the comment box
 def move_focus_out_of_comment_box():
     pyautogui.click(x=20, y=575)
-
-
-# define a function that will go to next tab using pyautogui.hotkey('ctrl', 'tab')
-def go_to_next_tab():
-
-    pyautogui.hotkey('ctrl', 'tab')
-
-
-# define the function to click on the submit button
-def click_submit():
-
-    pyautogui.click(x=1250, y=950)
 
 
 # define a function that will open the url in the default browser

@@ -3,15 +3,26 @@
 
 from functions import *
 
+# define the function to click on the submit button
 
-while True:
 
-    wait_for_do_key()
+def click_submit():
 
-    for i in range(5):
+    pyautogui.click(x=1250, y=950)
 
-        click_submit()
 
-        go_to_next_tab()
+def main():
 
-        wait(0.1)
+    wait(1)
+
+    click_submit()
+
+    go_to_next_tab()
+
+
+if __name__ == '__main__':
+
+    while True:
+
+        if keyboard.is_pressed('alt + z'):
+            main()
