@@ -10,12 +10,14 @@ def open_adguard_dns_filter_url():
     open_url('https://github.com/chirag127/test/issues/new')
     wait(5)
 
+
 def wait_for_do_key():
     while True:
         if pyautogui.keyDown('d'):
             break
         else:
             wait(1)
+
 
 while True:
 

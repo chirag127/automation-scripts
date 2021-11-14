@@ -89,20 +89,20 @@ def main():
 
 </details><br/>""")
 
-    wait(0.1)
+    wait(0.01)
 
     click_screenshot_holder()
 
-    wait(0.1)
+    wait(0.01)
 
     # press windows + 2 to paste the screenshot
     pyautogui.hotkey('win', 'num2')
 
-    wait(0.1)
+    wait(0.01)
 
     open_last_closed_tab()
 
-    wait(0.1)
+    wait(0.01)
 
     close_tab()
 
@@ -111,10 +111,10 @@ if __name__ == "__main__":
 
     while True:
 
-        if keyboard.is_pressed('alt + d'):
+        if keyboard.is_pressed('ctrl + d'):
             main()
 
-        elif keyboard.is_pressed('alt + z'):
+        elif keyboard.is_pressed('ctrl + c'):
             submitissue.main()
 
         else:
