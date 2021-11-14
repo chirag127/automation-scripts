@@ -55,11 +55,11 @@ def main():
     pyautogui.typewrite(domain)
 
     # wait for to load the issue page
-    wait(0.2)
+    wait(0.1)
 
     click_body()
 
-    wait(0.2)
+    wait(0.1)
 
     # type the issue with the url of the issue webpage
     pyautogui.typewrite(f"""**Issue URL (Ads/Annoyance)**:  `{url}`
@@ -83,20 +83,20 @@ def main():
 
 </details><br/>""")
 
-    wait(0.2)
+    wait(0.1)
 
     click_screenshot_holder()
 
-    wait(0.2)
+    wait(0.1)
 
     # press windows + 2 to paste the screenshot
     pyautogui.hotkey('win', 'num2')
 
-    wait(0.2)
+    wait(0.1)
 
     open_last_closed_tab()
 
-    wait(0.2)
+    wait(0.1)
 
     close_tab()
 
