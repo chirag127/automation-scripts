@@ -3,6 +3,7 @@ from functions import *
 
 # Load all result on the youtube search page
 
+
 def main():
 
     for i in range(1, 30):
@@ -14,6 +15,6 @@ def main():
 
 if __name__ == "__main__":
 
-    wait_for_z_key()
-    
+    wait_for_do_key()
+
     main()

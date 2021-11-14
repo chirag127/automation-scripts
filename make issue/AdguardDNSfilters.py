@@ -13,7 +13,7 @@ def open_adguard_dns_filter_url():
 
 while True:
 
-    wait_for_z()
+    wait_for_do_key()
 
     click_url_bar()
 

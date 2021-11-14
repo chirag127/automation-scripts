@@ -1,15 +1,20 @@
 import keyboard
-import time
 import pyautogui
 import webbrowser
+from time import sleep
 
+
+# define a function that will wait for the x seconds if the wait(x)
+def wait(x):
+
+    sleep(x)
 
 # define a function that will wait for the "z" key to be pressed
-def wait_for_z():
+def wait_for_do_key():
     while True:
         if keyboard.is_pressed('z'):
             break
-        time.sleep(0.1)
+        wait(0.1)
 
 # click on the new issue button on the bookmark bar at the top of the page at X,Y coordinates of the screen
 
@@ -47,11 +52,6 @@ def click_screenshot_holder():
 def move_focus_out_of_comment_box():
     pyautogui.click(x=20, y=575)
 
-
-# define a function that will wait for the x seconds if the wait(x)
-def wait(x):
-
-    time.sleep(x)
 
 
 # define a function that will go to next tab using pyautogui.hotkey('ctrl', 'tab')

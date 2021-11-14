@@ -30,15 +30,12 @@ if __name__ == "__main__":
 
         try:
 
-            wait_for_z_key()
+            wait_for_do_key()
 
             main()
 
-
         except Exception as e:
-                
-                print(e)
-    
-                wait(1)
 
-                
+            print(e)
+
+            wait(1)

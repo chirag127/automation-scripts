@@ -1,13 +1,17 @@
-import time
 import keyboard
+from time import sleep
 
 # define wait function
+
+
 def wait(seconds):
-    time.sleep(seconds)
+    sleep(seconds)
 
 # define function to wait for z key
-def wait_for_z_key():
+
+
+def wait_for_do_key():
     while True:
         if keyboard.is_pressed("z"):
             break
-        time.sleep(0.01)
+        sleep(0.01)

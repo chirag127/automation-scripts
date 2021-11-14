@@ -6,7 +6,7 @@ from functions import *
 
 while True:
 
-    wait_for_z()
+    wait_for_do_key()
 
     for i in range(5):
 

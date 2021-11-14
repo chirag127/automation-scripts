@@ -1,18 +1,18 @@
-import time
 import keyboard
 import pyautogui
+from time import sleep
 
 
 def wait(x):
-    time.sleep(x)
+    sleep(x)
 
 
 # defining the function to wait for user to press z key
-def wait_for_z_key():
+def wait_for_do_key():
     while True:
         if keyboard.is_pressed('z'):
             break
-        time.sleep(0.1)
+        sleep(0.1)
 
 # defining the function to close the tab
 

@@ -9,6 +9,8 @@ x = 0
 
 # define a function to open the youtube watch later playlist url in the browser = https://www.youtube.com/playlist?list=WL
 # name of the function is open_youtube_watch_later_playlist
+
+
 def open_youtube_watch_later_playlist():
     webbrowser.open('https://www.youtube.com/playlist?list=WL')
 
@@ -29,7 +31,7 @@ def click_on_remove_watched_videos_button_on_watch_later_playlist_to_remove_watc
 # defining the function to click on the remove button in the popup on the watch later playlist to remove watched videos
 # name of the function is click_on_remove_button_in_popup_on_watch_later_playlist_to_remove_watched_videos
 def click_on_remove_button_in_popup_on_watch_later_playlist_to_remove_watched_videos():
-    pyautogui.click(x=1140, y=616   + x)
+    pyautogui.click(x=1140, y=616 + x)
 
 
 # defining teh main function
@@ -52,6 +54,6 @@ def main():
 
 if __name__ == "__main__":
 
-    wait_for_z_key()
+    wait_for_do_key()
 
     main()

@@ -101,12 +101,11 @@ def main():
     close_tab()
 
 
-
 if __name__ == "__main__":
 
     # make a infinite loop that will wait for the "z" key to be pressed
     while True:
 
-        wait_for_z()
+        wait_for_do_key()
 
         main()

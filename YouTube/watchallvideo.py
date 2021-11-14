@@ -16,7 +16,6 @@ def main():
     key_to_resume_going_to_Next_video = "z"
     key_to_pause_for_some_minutes_going_to_Next_video = "p"
 
-
     while True:
 
         pyautogui.hotkey("shift", "n")
@@ -46,7 +45,6 @@ def main():
             time.sleep(0.05)
 
 
-
 if __name__ == "__main__":
 
-    main()        
+    main()

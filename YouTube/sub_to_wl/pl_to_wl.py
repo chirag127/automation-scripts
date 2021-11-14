@@ -6,6 +6,7 @@ import pyautogui
 
 x = 0
 
+
 def open_playlist_url_of_trans_playlist():
     webbrowser.open(
         'https://www.youtube.com/playlist?list=PLrE9n-AXguljnCwUdN0DJtdpYiu2lfMRE')
@@ -48,6 +49,6 @@ def main():
 
 if __name__ == '__main__':
 
-    wait_for_z_key()
+    wait_for_do_key()
 
     main()
