@@ -3,10 +3,6 @@ import pyautogui
 from time import sleep
 
 
-def wait(x):
-    sleep(x)
-
-
 # defining the function to wait for user to press z key
 def wait_for_do_key():
     while True:

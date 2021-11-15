@@ -30,7 +30,3 @@ def main():
     close_tab()
 
     removewatchedvideo.main()
-
-    sleep(0.1)
-
-    pyautogui.hotkey('ctrl', 'f5')
