@@ -2,6 +2,8 @@
 # by pressing the hotkeys control+ tab
 
 from functions import *
+from time import sleep
+import keyboard
 
 # define the function to click on the submit button
 
@@ -13,7 +15,7 @@ def click_submit():
 
 def main():
 
-    wait(1)
+    sleep(1)
 
     click_submit()
 

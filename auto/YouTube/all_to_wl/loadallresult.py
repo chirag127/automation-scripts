@@ -10,7 +10,7 @@ def main():
 
         pyautogui.press('end')
 
-        wait(1.5)
+        sleep(1.5)
 
 
 if __name__ == "__main__":

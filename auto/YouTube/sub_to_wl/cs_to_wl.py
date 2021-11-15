@@ -44,15 +44,15 @@ def cstowl():
 
     open_subscriptions_page()
 
-    wait(3)
+    sleep(3)
 
     click_on_three_dots_on_subcription()
 
-    wait(0.5)
+    sleep(0.5)
 
     click_on_checkbox_on_subcription()
 
-    wait(0.5)
+    sleep(0.5)
 
     click_on_save_to_wl_on_subcription()
 
@@ -61,25 +61,25 @@ def main():
 
     cstowl()
 
-    wait(1)
+    sleep(1)
 
     close_tab()
 
     pl_to_wl.main()
 
-    wait(1)
+    sleep(1)
 
     close_tab()
 
     t_to_wl.main()
 
-    wait(1)
+    sleep(1)
 
     close_tab()
 
     removewatchedvideo.main()
 
-    wait(2)
+    sleep(2)
 
     playwl.main()
 

@@ -4,8 +4,10 @@ import pyautogui
 from urllib.parse import urlparse
 import clipboard
 from functions import *
+from time import sleep
 import webbrowser
 import submitissue
+import keyboard
 
 # first we will click on the "z" key
 # click on the url bar at the top of the page
@@ -34,9 +36,11 @@ def open_adguard_filter_new_issues_url():
 
 def main():
 
-    # click_url_bar()
+    sleep(0.5)
 
-    wait(0.2)
+    pyautogui.hotkey('alt', 'd')
+
+    sleep(0.1)
 
     copyselectedtext()
 
@@ -46,25 +50,25 @@ def main():
     # parse the url to get the domain name
     domain = urlparse(url).netloc
 
-    wait(0.1)
+    sleep(0.1)
 
     close_tab()
 
-    wait(0.1)
+    sleep(0.1)
 
     open_adguard_filter_new_issues_url()
 
     # wait for to load the issue page
-    wait(3)
+    sleep(3)
 
     pyautogui.typewrite(domain)
 
     # wait for to load the issue page
-    wait(0.1)
+    sleep(0.1)
 
     click_body()
 
-    wait(0.1)
+    sleep(0.1)
 
     # type the issue with the url of the issue webpage
     pyautogui.typewrite(f"""**Issue URL (Ads/Annoyance)**:  `{url}`
@@ -88,20 +92,20 @@ def main():
 
 </details><br/>""")
 
-    wait(0.01)
+    sleep(0.01)
 
     click_screenshot_holder()
 
-    wait(0.01)
+    sleep(0.01)
 
     # press windows + 2 to paste the screenshot
     pyautogui.hotkey('win', 'num2')
 
-    wait(0.01)
+    sleep(0.01)
 
     open_last_closed_tab()
 
-    wait(0.01)
+    sleep(0.01)
 
     close_tab()
 
@@ -117,4 +121,4 @@ if __name__ == "__main__":
             submitissue.main()
 
         else:
-            wait(0.1)
+            sleep(0.1)

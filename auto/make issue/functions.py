@@ -1,16 +1,9 @@
-import keyboard
 import pyautogui
 import webbrowser
-from time import sleep
-
-
-# define a function that will wait for the x seconds if the wait(x)
-def wait(x):
-
-    sleep(x)
-
 
 # define a function that will go to next tab using pyautogui.hotkey('ctrl', 'tab')
+
+
 def go_to_next_tab():
 
     pyautogui.hotkey('ctrl', 'tab')

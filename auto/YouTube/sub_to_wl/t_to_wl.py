@@ -11,7 +11,7 @@ def open_trending():
 
 
 def wait_for_trending_page():
-    wait(5)
+    sleep(5)
 
 # click the three dots to the right of the video title on the trending page
 
@@ -39,11 +39,11 @@ def main():
 
     click_three_dots_trending()
 
-    wait(0.1)
+    sleep(0.1)
 
     click_checkbox_trending()
 
-    wait(0.1)
+    sleep(0.1)
 
     click_save_to_wl_trending()
 

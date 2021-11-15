@@ -1,4 +1,3 @@
-import pyautogui
 from functions import *
 
 
@@ -9,14 +8,14 @@ def main():
     y_three_dots = multiselect[1] + 10
     pyautogui.click(x_three_dots, y_three_dots)
 
-    wait(0.1)
+    sleep(0.1)
 
     # click on the select all option
     x_select_all = x_three_dots - 100
     y_select_all = y_three_dots + 25
     pyautogui.click(x_select_all, y_select_all)
 
-    wait(0.1)
+    sleep(0.1)
 
     # click on the save to watch later button
     x_save_to_wl = x_three_dots - 100
@@ -38,4 +37,4 @@ if __name__ == "__main__":
 
             print(e)
 
-            wait(1)
+            sleep(1)

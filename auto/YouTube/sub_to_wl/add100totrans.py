@@ -9,6 +9,7 @@ from functions import *
 def open_subscriptions_page_in_edge():
     webbrowser.register('edge', None, webbrowser.BackgroundBrowser(
         "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"))
+
     webbrowser.get('edge').open("https://www.youtube.com/feed/subscriptions")
 
 
@@ -57,31 +58,31 @@ def main():
 
     open_subscriptions_page_in_edge()
 
-    wait(15)
+    sleep(10)
 
     click_on_three_dots_on_subcription()
 
-    wait(0.5)
+    sleep(0.5)
 
     click_on_checkbox_on_subcription()
 
-    wait(0.5)
+    sleep(0.5)
 
     click_on_add_to_queue_on_subcription()
 
-    wait(2)
+    sleep(2)
 
     click_on_expand_on_subcription()
 
-    wait(1)
+    sleep(1)
 
     click_on_the_save_above_the_queue_playlist_created_by_the_add100totrans_function()
 
-    wait(2)
+    sleep(2)
 
     click_on_trans_playlist_after_click_on_the_save_button_above_the_queue_playlist_created_by_the_add100totrans_function()
 
-    wait(2)
+    sleep(2)
 
 
 if __name__ == '__main__':

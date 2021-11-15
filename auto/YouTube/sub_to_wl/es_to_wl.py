@@ -10,27 +10,31 @@ def main():
 
     add100totrans.main()
 
-    wait(1)
+    sleep(1)
+
+    close_tab()
+
+    sleep(0.1)
 
     close_tab()
 
     pl_to_wl.main()
 
-    wait(1)
+    sleep(1)
 
     close_tab()
 
     t_to_wl.main()
 
-    wait(1)
+    sleep(1)
 
     close_tab()
 
     removewatchedvideo.main()
 
-    wait(2)
+    # sleep(2)
 
-    playwl.main()
+    # playwl.main()
 
 
 if __name__ == "__main__":

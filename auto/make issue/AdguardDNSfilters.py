@@ -2,13 +2,14 @@ import pyautogui
 from functions import *
 import clipboard
 from urllib.parse import urlparse
+from time import sleep
 
 # open adguard dns filter url in browser https://github.com/AdguardTeam/AdGuardSDNSFilter/issues/new
 
 
 def open_adguard_dns_filter_url():
     open_url('https://github.com/chirag127/test/issues/new')
-    wait(5)
+    sleep(5)
 
 
 def wait_for_do_key():
@@ -16,7 +17,7 @@ def wait_for_do_key():
         if pyautogui.keyDown('d'):
             break
         else:
-            wait(1)
+            sleep(1)
 
 
 while True:
@@ -27,7 +28,7 @@ while True:
 
     copyselectedtext()
 
-    wait(0.5)
+    sleep(0.5)
 
     # get the url of the website by using the clipboard
     url = clipboard.paste()
@@ -39,13 +40,13 @@ while True:
 
     pyautogui.typewrite(domain)
 
-    wait(0.2)
+    sleep(0.2)
 
     click_body()
 
     pyautogui.hotkey('ctrl', 'a')
 
-    wait(0.2)
+    sleep(0.2)
 
     type_text(f"""### Steps to reproduce
 <!--- Provide a link to a live example or a clear set of steps to reproduce the issue-->
@@ -60,7 +61,7 @@ Not Blocked
 <!--- Tell us what happens instead -->
 Blocked""")
 
-    wait(0.2)
+    sleep(0.2)
 
     click_title()
 

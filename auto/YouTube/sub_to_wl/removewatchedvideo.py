@@ -39,15 +39,15 @@ def main():
 
     open_youtube_watch_later_playlist()
 
-    wait(6)
+    sleep(6)
 
     click_on_three_dots_button_on_watch_later_playlist_to_remove_watched_videos()
 
-    wait(0.5)
+    sleep(0.5)
 
     click_on_remove_watched_videos_button_on_watch_later_playlist_to_remove_watched_videos()
 
-    wait(1.5)
+    sleep(1.5)
 
     click_on_remove_button_in_popup_on_watch_later_playlist_to_remove_watched_videos()
 
