@@ -38,7 +38,7 @@ def click_body():
 
 # click place of screenshot holder
 def click_screenshot_holder():
-    pyautogui.click(x=566, y=650)
+    pyautogui.click(x=566, y=630)
 
 
 # move focus out of the comment box
