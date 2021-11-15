@@ -4,13 +4,9 @@ from functions import *
 import pl_to_wl
 import t_to_wl
 import removewatchedvideo
-import playwl
-
 
 # Open the web browser and navigate to the URL https://www.youtube.com/feed/subscriptions
-
-
-def open_subscriptions_page():
+def open_subscriptions_page_in_default_browser():
     webbrowser.open("https://www.youtube.com/feed/subscriptions")
 
 
@@ -31,17 +27,9 @@ def click_on_save_to_wl_on_subcription():
     pyautogui.moveTo(730, 600)
     pyautogui.click()
 
-# click on expand at 1400,680
-
-
-def click_on_expand_on_subcription():
-    pyautogui.moveTo(1400, 680)
-    pyautogui.click()
-
-
 def cstowl():
 
-    open_subscriptions_page()
+    open_subscriptions_page_in_default_browser()
 
     sleep(3)
 

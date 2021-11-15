@@ -1,28 +1,27 @@
 import pyautogui
-import webbrowser
 from functions import *
+
+x_offset = 0
 
 
 # defining the function to click on the 3 dots button at (x,y) coordinates = (680,480)
 def click_on_three_dots_on_subcription():
-    pyautogui.moveTo(680, 471)
+    pyautogui.moveTo(680, 471 + x_offset)
     pyautogui.click()
 
 
 # defining the function to click on the checkbox button to select all videos on the page at (x,y) coordinates = (730,490)
 def click_on_checkbox_on_subcription():
-    pyautogui.moveTo(730, 490)
+    pyautogui.moveTo(730, 490 + x_offset)
     pyautogui.click()
 
 
 # defining the function to click on the "Add to queue" button at (x,y) coordinates = (800,570)
 def click_on_add_to_queue_on_subcription():
-    pyautogui.moveTo(730, 580)
+    pyautogui.moveTo(730, 580 + x_offset)
     pyautogui.click()
 
 # click on expand at 1400,680
-
-
 def click_on_expand_on_subcription():
     pyautogui.moveTo(1400, 680)
     pyautogui.click()
