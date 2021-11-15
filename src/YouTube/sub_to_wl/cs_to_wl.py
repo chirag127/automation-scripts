@@ -1,7 +1,6 @@
 import pyautogui
 import webbrowser
 from functions import *
-import add100totrans
 import pl_to_wl
 import t_to_wl
 import removewatchedvideo
@@ -79,14 +78,7 @@ def main():
 
     removewatchedvideo.main()
 
-    sleep(2)
-
-    playwl.main()
-
 
 if __name__ == '__main__':
-    while True:
 
-        wait_for_do_key()
-
-        main()
+    main()

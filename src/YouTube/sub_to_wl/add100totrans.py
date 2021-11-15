@@ -3,16 +3,6 @@ import webbrowser
 from functions import *
 
 
-# Open the web browser and navigate to the URL https://www.youtube.com/feed/subscriptions
-
-
-def open_subscriptions_page_in_edge():
-    webbrowser.register('edge', None, webbrowser.BackgroundBrowser(
-        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"))
-
-    webbrowser.get('edge').open("https://www.youtube.com/feed/subscriptions")
-
-
 # defining the function to click on the 3 dots button at (x,y) coordinates = (680,480)
 def click_on_three_dots_on_subcription():
     pyautogui.moveTo(680, 471)
@@ -55,8 +45,6 @@ def click_on_trans_playlist_after_click_on_the_save_button_above_the_queue_playl
 
 
 def main():
-
-    open_subscriptions_page_in_edge()
 
     sleep(10)
 

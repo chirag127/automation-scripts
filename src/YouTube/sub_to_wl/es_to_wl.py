@@ -1,42 +1,19 @@
 from functions import *
-import add100totrans
-import pl_to_wl
-import t_to_wl
-import removewatchedvideo
-import playwl
+import webbrowser
+import s_to_wl
+
+# Open the web browser and navigate to the URL https://www.youtube.com/feed/subscriptions in Edge
 
 
-def main():
+def open_subscriptions_page_in_edge():
+    webbrowser.register('edge', None, webbrowser.BackgroundBrowser(
+        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"))
 
-    add100totrans.main()
-
-    sleep(1)
-
-    close_tab()
-
-    sleep(0.1)
-
-    close_tab()
-
-    pl_to_wl.main()
-
-    sleep(1)
-
-    close_tab()
-
-    t_to_wl.main()
-
-    sleep(1)
-
-    close_tab()
-
-    removewatchedvideo.main()
-
-    sleep(0.1)
-
-    pyautogui.hotkey('ctrl', 'f5')
+    webbrowser.get('edge').open("https://www.youtube.com/feed/subscriptions")
 
 
 if __name__ == "__main__":
 
-    main()
+    open_subscriptions_page_in_edge()
+
+    s_to_wl.main()
