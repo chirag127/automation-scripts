@@ -32,9 +32,9 @@ def main():
 
     removewatchedvideo.main()
 
-    # sleep(2)
+    sleep(0.1)
 
-    # playwl.main()
+    pyautogui.hotkey('ctrl', 'f5')
 
 
 if __name__ == "__main__":

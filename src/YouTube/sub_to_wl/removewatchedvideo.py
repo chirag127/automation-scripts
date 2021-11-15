@@ -47,7 +47,7 @@ def main():
 
     click_on_remove_watched_videos_button_on_watch_later_playlist_to_remove_watched_videos()
 
-    sleep(1.5)
+    sleep(1)
 
     click_on_remove_button_in_popup_on_watch_later_playlist_to_remove_watched_videos()
 

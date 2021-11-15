@@ -50,11 +50,11 @@ def main():
     # parse the url to get the domain name
     domain = urlparse(url).netloc
 
-    sleep(0.1)
+    sleep(0.01)
 
     close_tab()
 
-    sleep(0.1)
+    sleep(0.01)
 
     open_adguard_filter_new_issues_url()
 
@@ -64,11 +64,11 @@ def main():
     pyautogui.typewrite(domain)
 
     # wait for to load the issue page
-    sleep(0.1)
+    sleep(0.01)
 
     click_body()
 
-    sleep(0.1)
+    sleep(0.01)
 
     # type the issue with the url of the issue webpage
     pyautogui.typewrite(f"""**Issue URL (Ads/Annoyance)**:  `{url}`
