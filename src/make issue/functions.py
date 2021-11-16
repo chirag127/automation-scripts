@@ -2,6 +2,8 @@ import pyautogui
 import webbrowser
 
 # define a function that will go to next tab using pyautogui.hotkey('ctrl', 'tab')
+
+
 def go_to_next_tab():
 
     pyautogui.hotkey('ctrl', 'tab')
