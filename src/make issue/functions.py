@@ -2,16 +2,12 @@ import pyautogui
 import webbrowser
 
 # define a function that will go to next tab using pyautogui.hotkey('ctrl', 'tab')
-
-
 def go_to_next_tab():
 
     pyautogui.hotkey('ctrl', 'tab')
 
 
 # click on the new issue button on the bookmark bar at the top of the page at X,Y coordinates of the screen
-
-
 def click_new_issue():
 
     pyautogui.click(x=25, y=100)
