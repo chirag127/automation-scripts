@@ -59,7 +59,7 @@ def main():
 
     click_on_add_to_queue_on_subcription()
 
-    sleep(2)
+    sleep(3)
 
     click_on_expand_on_subcription()
 

@@ -8,7 +8,7 @@ from time import sleep
 
 
 def open_adguard_dns_filter_url():
-    open_url('https://github.com/chirag127/test/issues/new')
+    webbrowser.open('https://github.com/chirag127/test/issues/new')
     sleep(5)
 
 
@@ -24,7 +24,7 @@ while True:
 
     wait_for_do_key()
 
-    click_url_bar()
+    pyautogui.hotkey('alt', 'd')
 
     copyselectedtext()
 
@@ -48,7 +48,7 @@ while True:
 
     sleep(0.2)
 
-    type_text(f"""### Steps to reproduce
+    pyautogui.typewrite(f"""### Steps to reproduce
 <!--- Provide a link to a live example or a clear set of steps to reproduce the issue-->
 1. Go to {url}.
 2. See bug.
