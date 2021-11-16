@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     sleep(3)
 
-    type_text(type_domain)
+    pyautogui.typewrite(type_domain)
 
 
     
