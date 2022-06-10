@@ -18,7 +18,7 @@ def main():
 
     sleep(0.1)
 
-    pyautogui.click(1206, 745)
+    pyautogui.hotkey("ctrl", "enter")
 
     sleep(0.1)
 
