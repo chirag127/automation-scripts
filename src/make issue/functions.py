@@ -6,7 +6,7 @@ import webbrowser
 
 def go_to_next_tab():
 
-    pyautogui.hotkey('ctrl', 'tab')
+    pyautogui.hotkey("ctrl", "tab")
 
 
 # click on the new issue button on the bookmark bar at the top of the page at X,Y coordinates of the screen
@@ -18,7 +18,7 @@ def click_new_issue():
 # define a function that will copy the url from the url bar using the pyautogui library by pressing the "ctrl" key + "c"
 def copyselectedtext():
 
-    pyautogui.hotkey('ctrl', 'c')
+    pyautogui.hotkey("ctrl", "c")
 
 
 # type click on the body of the issue using pyautogui.click()
@@ -33,14 +33,14 @@ def click_screenshot_holder():
 
 
 def close_tab():
-    pyautogui.hotkey('ctrl', 'w')
+    pyautogui.hotkey("ctrl", "w")
 
 
 # define a function that will open the last closed tab
 # open last closed tab
 def open_last_closed_tab():
 
-    pyautogui.hotkey('ctrl', 'shift', 't')
+    pyautogui.hotkey("ctrl", "shift", "t")
 
 
 # define a function that will click on the title of the issue

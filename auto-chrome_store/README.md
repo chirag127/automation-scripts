@@ -1,5 +1,4 @@
-# auto-chromestore
- 
+# auto-chrome_store
 
 VM374:3 https://chrome.google.com/webstore/detail/hd-replay-popout-for-yout/oabcncpmomlmkkeagpphpfncjdmmnipk
 VM374:3 https://chrome.google.com/webstore/detail/smartvideo-for-youtube/lnkdbjbjpnpjeciipoaflmpcddinpjjp
@@ -41,9 +40,9 @@ VM374:3 https://chrome.google.com/webstore/detail/improvedtube-testing/lodjfjlko
 VM374:3 https://chrome.google.com/webstore/detail/stop-youtube-autoplay/npcghnpganhnghapekiicaeiobnhbbfa
 VM374:3 https://www.mrfdev.com/privacy
 VM374:3 https://developer.chrome.com/docs/webstore/program_policies/#limited_use
-142VM374:3 
+142VM374:3
 2VM374:3 https://chrome.google.com/webstore/detail/enhancer-for-youtube/ponfpcnoihfmfllpaingbgckeeldkhle#
-VM374:3 
+VM374:3
 2VM374:3 https://www.mrfdev.com/how-to-use-enhancer-for-youtube
 VM374:3 https://chrome.google.com/webstore/detail/magic-actions-for-youtube/abjcfabbhafbcdfjoecdgepllmpfceif
 VM374:3 https://chrome.google.com/webstore/detail/improve-youtube-video-you/bnomihfieiccainjcjblhegjgglakjdd
@@ -64,7 +63,7 @@ VM374:3 https://chrome.google.com/webstore/detail/uautopagerize/kdplapeciagkkjoi
 VM374:3 https://chrome.google.com/webstore/category/extensions
 VM374:3 https://chrome.google.com/webstore/category/themes
 VM374:3 https://chrome.google.com/webstore/category/extensions
-5VM374:3 
+5VM374:3
 VM374:3 https://policies.google.com/privacy?hl=en
 VM374:3 https://ssl.gstatic.com/chrome/webstore/intl/en/gallery_tos.html
 VM374:3 https://support.google.com/chrome_webstore/bin/answer.py?hl=en&answer=1047776&topic=1212379

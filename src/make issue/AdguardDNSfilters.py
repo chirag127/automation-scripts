@@ -1,5 +1,6 @@
+import webbrowser
 import pyautogui
-from functions import *
+from AdguardTeam.AdguardFilters.functions import copy_selected_text
 import clipboard
 from urllib.parse import urlparse
 from time import sleep
@@ -8,13 +9,13 @@ from time import sleep
 
 
 def open_adguard_dns_filter_url():
-    webbrowser.open('https://github.com/chirag127/test/issues/new')
+    webbrowser.open("https://github.com/chirag127/test/issues/new")
     sleep(5)
 
 
 def wait_for_do_key():
     while True:
-        if pyautogui.keyDown('d'):
+        if pyautogui.keyDown("d"):
             break
         else:
             sleep(1)
@@ -24,9 +25,9 @@ while True:
 
     wait_for_do_key()
 
-    pyautogui.hotkey('alt', 'd')
+    pyautogui.hotkey("alt", "d")
 
-    copyselectedtext()
+    copy_selected_text()
 
     sleep(0.5)
 
@@ -44,11 +45,12 @@ while True:
 
     click_body()
 
-    pyautogui.hotkey('ctrl', 'a')
+    pyautogui.hotkey("ctrl", "a")
 
     sleep(0.2)
 
-    pyautogui.typewrite(f"""### Steps to reproduce
+    pyautogui.typewrite(
+        f"""### Steps to reproduce
 <!--- Provide a link to a live example or a clear set of steps to reproduce the issue-->
 1. Go to {url}.
 2. See bug.
@@ -59,10 +61,11 @@ Not Blocked
 
 ### Actual behavior
 <!--- Tell us what happens instead -->
-Blocked""")
+Blocked"""
+    )
 
     sleep(0.2)
 
     click_title()
 
-    pyautogui.press('enter')
+    pyautogui.press("enter")

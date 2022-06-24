@@ -22,9 +22,9 @@ def main():
     go_to_next_tab()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     while True:
 
-        if keyboard.is_pressed('z'):
+        if keyboard.is_pressed("z"):
             main()

@@ -4,9 +4,10 @@
 import pyautogui
 from time import sleep
 
+
 def main():
     # press end
-    pyautogui.press('end')
+    pyautogui.press("end")
 
     sleep(0.1)
 
@@ -14,7 +15,7 @@ def main():
 
     sleep(0.1)
 
-    pyautogui.hotkey('ctrl', "v")
+    pyautogui.hotkey("ctrl", "v")
 
     sleep(0.1)
 
@@ -22,9 +23,10 @@ def main():
 
     sleep(0.1)
 
-    pyautogui.hotkey('ctrl', "tab")
+    pyautogui.hotkey("ctrl", "tab")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
 
     sleep(5)
     for _ in range(10):

@@ -6,7 +6,7 @@ import clipboard
 from functions import *
 from time import sleep
 import webbrowser
-import submitissue
+import submit_issue
 import keyboard
 
 # first we will click on the "z" key
@@ -31,14 +31,15 @@ def open_adguard_filter_new_issues_url():
 
     webbrowser.open("https://github.com/AdguardTeam/AdguardFilters/issues/new")
 
-   #  webbrowser.open("https://github.com/chirag127/test/issues/new")
+
+#  webbrowser.open("https://github.com/chirag127/test/issues/new")
 
 
 def main():
 
     sleep(0.5)
 
-    pyautogui.hotkey('alt', 'd')
+    pyautogui.hotkey("alt", "d")
 
     sleep(0.1)
 
@@ -71,7 +72,8 @@ def main():
     sleep(0.01)
 
     # type the issue with the url of the issue webpage
-    pyautogui.typewrite(f"""**Issue URL (Ads/Annoyance)**:  `{url}`
+    pyautogui.typewrite(
+        f"""**Issue URL (Ads/Annoyance)**:  `{url}`
 
 
 <details><summary>Screenshots:</summary>
@@ -90,7 +92,8 @@ def main():
 
 ![image](https://user-images.githubusercontent.com/76880977/141497551-099fafbf-933f-44c7-956a-f88fc1bcb5d5.png)
 
-</details><br/>""")
+</details><br/>"""
+    )
 
     sleep(0.01)
 
@@ -99,7 +102,7 @@ def main():
     sleep(0.01)
 
     # press windows + 2 to paste the screenshot
-    pyautogui.hotkey('win', 'num2')
+    pyautogui.hotkey("win", "num2")
 
     sleep(0.01)
 
@@ -114,11 +117,11 @@ if __name__ == "__main__":
 
     while True:
 
-        if keyboard.is_pressed('ctrl + q'):
+        if keyboard.is_pressed("ctrl + q"):
             main()
 
-        elif keyboard.is_pressed('ctrl + a'):
-            submitissue.main()
+        elif keyboard.is_pressed("ctrl + a"):
+            submit_issue.main()
 
         else:
             sleep(0.1)
