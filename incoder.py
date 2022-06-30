@@ -49,23 +49,24 @@ def get_code_from_metaai(prompt, max_tokens=None, temperature=0):
 
     return text_without_prompt
 
+    # return text
 
 def main(max_tokens=None, temperature=0):
 
-    
     prompt, number_of_characters = get_prompt()
 
-    if number_of_characters > 400:
-    # prompt is too long, so truncate it to 400 characters from the right
-        print("prompt is too long, so truncate it to 400 characters from the right")
-        prompt = prompt[-400:]
+    n = 1200
 
-        number_of_characters = 400
+    if number_of_characters > n:
+        print(f"prompt is too long, so truncate it to {n} characters from the right")
+        prompt = prompt[-n:]
+
+        number_of_characters = len(prompt)
 
         print(f"number_of_characters: {number_of_characters}")
 
     if max_tokens is None:
-        max_tokens = 320 - number_of_characters // 4
+        max_tokens = 2048 - number_of_characters // 4
 
         print(f"max_tokens: {max_tokens}")
 
@@ -76,9 +77,6 @@ def main(max_tokens=None, temperature=0):
     )
 
     type_text(text)
-
-
-
 
 
 if __name__ == "__main__":
@@ -105,10 +103,10 @@ if __name__ == "__main__":
     i = 0
     while True:
         if keyboard.is_pressed("ctrl+s"):
-            main(max_tokens,temperature)
+            main(max_tokens, temperature)
         else:
             sleep(0.1)
-            print(i)
+            # print(i)
             i = i % 10
             i += 1
             
