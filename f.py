@@ -12,6 +12,7 @@ def search_google(text):
 def get_prompt():
 
     sleep(0.5)
+    pyautogui.hotkey("ctrl", "c")
 
     pyautogui.press("right")
 
@@ -21,11 +22,10 @@ def get_prompt():
 
     number_of_characters = len(prompt)
 
-    if number_of_characters > 20000:
-        # prompt is too long, so truncate it to 28000 characters from the right
-        prompt = prompt[-20000:]
+    print(f"number of characters: {number_of_characters}")
+    print(f"number of tokens: {number_of_characters//4}")
 
-    return prompt
+    return prompt, number_of_characters
 
 
 def type_text(text):

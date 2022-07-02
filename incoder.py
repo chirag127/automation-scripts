@@ -55,7 +55,7 @@ def main(max_tokens=None, temperature=0):
 
     prompt, number_of_characters = get_prompt()
 
-    n = 1200
+    n = 500
 
     if number_of_characters > n:
         print(f"prompt is too long, so truncate it to {n} characters from the right")
@@ -77,7 +77,6 @@ def main(max_tokens=None, temperature=0):
     )
 
     type_text(text)
-
 
 if __name__ == "__main__":
 
