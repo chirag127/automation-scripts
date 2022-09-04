@@ -51,6 +51,7 @@ def get_code_from_metaai(prompt, max_tokens=None, temperature=0):
 
     # return text
 
+
 def main(max_tokens=None, temperature=0):
 
     prompt, number_of_characters = get_prompt()
@@ -77,6 +78,7 @@ def main(max_tokens=None, temperature=0):
     )
 
     type_text(text)
+
 
 if __name__ == "__main__":
 
@@ -108,4 +110,3 @@ if __name__ == "__main__":
             # print(i)
             i = i % 10
             i += 1
-            
