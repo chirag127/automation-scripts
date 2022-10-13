@@ -2,19 +2,15 @@ import config
 from time import sleep
 import openai
 import keyboard
-import requests
 
 from f import type_text
 
 
 def get_edited_code_from_openai(
-    prompt_,
-    model,
-    instruction,
+        prompt_,
+        model,
+        instruction,
 ):
-
-
-
 
     number_of_characters = len(prompt_)
 
@@ -29,27 +25,6 @@ def get_edited_code_from_openai(
     max_tokens = 7000 - number_of_characters // 4
 
     openai.api_key = config.OPENAI_API_KEY
-
-
-    # url = "https://api.openai.com/v1/edits"
-    # response = requests.post(
-    #     url,
-    #     headers={
-    #         "Authorization": f"Bearer {config.OPENAI_API_KEY}",
-    #         "Content-Type": "application/json",
-    #     },
-    #     json={
-    #         "input": prompt_,
-    #         "instruction": instruction,
-    #         "model": model,
-    #         "temperature": 0.5,
-    #         "max_tokens": max_tokens,
-    #         "top_p": 1,
-    #         "frequency_penalty": 0,
-    #         "presence_penalty": 0,
-    #         "stop": ["\n\n\n", "###","\r\n\r\n\r\n"],
-    #     },
-    # )
 
     response = openai.Edit.create(
         input=prompt_,
@@ -77,7 +52,7 @@ def get_edited_code_from_openai(
 import pyautogui
 import pyperclip
 
-def main(model="code-davinci-edit-001", instruction="follow instructions in the input"):
+def main(model="code-davinci-edit-001", instruction="solve the problem"):
 
     """
     Get the prompt from the user.
@@ -108,33 +83,15 @@ if __name__ == "__main__":
         if keyboard.is_pressed(key):
             print(f"{key} pressed")
 
+            speak("starting")
+
+            # instruction = "remove all pylint errors"
+
+            # main(instruction=instruction)
+
             main()
 
             speak("Done")
 
         else:
             sleep(0.1)
-
-    # max_tokens = None
-    # import sys
-
-    # if len(sys.argv) > 1:
-    #     max_tokens = int(sys.argv[1])
-    # elif len(sys.argv) > 2:
-    #     max_tokens = int(sys.argv[1])
-    #     temperature = float(sys.argv[2])
-    # elif len(sys.argv) > 3:
-    #     max_tokens = int(sys.argv[1])
-    #     temperature = float(sys.argv[2])
-    #     top_p = float(sys.argv[3])
-    # elif len(sys.argv) > 4:
-    #     max_tokens = int(sys.argv[1])
-    #     temperature = float(sys.argv[2])
-    #     top_p = float(sys.argv[3])
-    #     frequency_penalty = float(sys.argv[4])
-    # elif len(sys.argv) > 5:
-    #     max_tokens = int(sys.argv[1])
-    #     temperature = float(sys.argv[2])
-    #     top_p = float(sys.argv[3])
-    #     frequency_penalty = float(sys.argv[4])
-    #     presence_penalty = float(sys.argv[5])

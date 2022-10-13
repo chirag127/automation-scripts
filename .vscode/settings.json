@@ -1,4 +1,8 @@
 {
   "python.linting.enabled": true,
-  "cSpell.words": ["adguard"]
+  "cSpell.words": [
+    "adguard"
+  ],
+  "editor.tabCompletion": "on",
+  "diffEditor.codeLens": true
 }
