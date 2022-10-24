@@ -4441,3 +4441,3859 @@ int main()
 
     return 0;
 }
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "io"
+    "os"
+    "strconv"
+    "strings"
+)
+
+/*
+ * Complete the 'birthdayCakeCandles' function below.
+ *
+ * The function is expected to return an INTEGER.
+ * The function accepts INTEGER_ARRAY candles as parameter.
+ */
+
+func birthdayCakeCandles(candles []int32) int32 {
+    var (
+        max int32 = 0
+        count int32 = 0
+    )
+
+    for i := 0; i < len(candles); i++ {
+        if candles[i] == max {
+            count++
+        }
+
+        if candles[i] > max {
+            max = candles[i]
+            count = 1
+        }
+    }
+    
+    return count
+}
+
+func main() {
+    reader := bufio.NewReaderSize(os.Stdin, 16 * 1024 * 1024)
+
+    stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
+    checkError(err)
+
+    defer stdout.Close()
+
+    writer := bufio.NewWriterSize(stdout, 16 * 1024 * 1024)
+
+    candlesCount, err := strconv.ParseInt(strings.TrimSpace(readLine(reader)), 10, 64)
+    checkError(err)
+
+    candlesTemp := strings.Split(strings.TrimSpace(readLine(reader)), " ")
+
+    var candles []int32
+
+    for i := 0; i < int(candlesCount); i++ {
+        candlesItemTemp, err := strconv.ParseInt(candlesTemp[i], 10, 64)
+        checkError(err)
+        candlesItem := int32(candlesItemTemp)
+        candles = append(candles, candlesItem)
+    }
+
+    result := birthdayCakeCandles(candles)
+
+    fmt.Fprintf(writer, "%d\n", result)
+
+    writer.Flush()
+}
+
+func readLine(reader *bufio.Reader) string {
+    str, _, err := reader.ReadLine()
+    if err == io.EOF {
+        return ""
+    }
+
+    return strings.TrimRight(string(str), "\r\n")
+}
+
+func checkError(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'timeConversion' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts STRING s as parameter.
+#
+
+def timeConversion(s):
+    # Write your code here
+    a = s.split(":")
+    if s[-2:] == "AM" and a[0] == "12": 
+         return "00:"+a[1]+":"+a[2][:2]
+    elif s[-2:] == "AM":
+        return s[:-2]
+    elif s[-2:] == "PM" and a[0] == "12":
+        return s[:-2]
+    else:
+        return str(int(a[0])+12) + ":" + a[1] + ":" + a[2][:2]
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    s = "07:05:45PM"
+
+    print(s)
+    result = timeConversion(s)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'blacklist' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts 2D_INTEGER_ARRAY amounts as parameter.
+#
+
+def blacklist(amounts):
+    for i in range(1, len(amounts)):
+        for j in range(len(amounts[0])):
+            amounts[i][j] += amounts[i-1][j]
+    max_sum = 0
+    current_sum = 0
+    for i in range(len(amounts[0])):
+        while True:
+            if current_sum + amounts[i][-1] < i:
+                break
+            else:
+                current_sum += amounts[i][-1]
+                amounts[i].pop(-1)
+        max_sum = max(max_sum, current_sum)
+        current_sum = 0
+    return max_sum
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    k = int(first_multiple_input[1])
+
+    amounts = []
+
+    for _ in range(k):
+        amounts.append(list(map(int, input().rstrip().split())))
+
+    result = blacklist(amounts)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+Listing files on your local machine
+Listing files on your server
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "io"
+    "os"
+    "strconv"
+    "strings"
+)
+
+/*
+ * Complete the 'blacklist' function below.
+ *
+ * The function is expected to return an INTEGER.
+ * The function accepts 2D_INTEGER_ARRAY amounts as parameter.
+ */
+
+//data struct to track metadata
+type Meta struct {
+    accountID int32
+    creditAmount int32
+}
+
+//function to validate and calculate the percentage of blacklisted accounts.
+//we are assuming that the charges to a particular account will always be for 
+//accounts with ID's lesser than the current account ID
+func blacklist(amounts [][]int32) int32 {
+    var total = int32(0) //maintain the total amount charged by all account
+    var queue = make([]Meta,0) //maintain the queue
+    //Run the nested loop to iterate the input matrix. I know we are not supposed 
+    //to compare the two for loop operands as each for needs a fixed range, but 
+    //I have taken that liberty
+    var blacklistList = make([]Meta,0)
+    var processedAccountIDList = make([]bool,len(amounts))
+    blacklistList = append(blacklistList, Meta{accountID: int32(-1), 
+                                    creditAmount: int32(1000000000) })
+    for i, charges := range amounts {
+        processedAccountIDList[i] = false
+        for j, charge := range charges {
+            if charge != int32(-1) {
+		//calculate the total amount charged by all the accounts 
+                total += charge;
+                //validate the condition
+                updateBlackList(charge, &queue, 
+                                Meta{accountID: int32(j), creditAmount: charge},
+                                total, blacklistList)
+            } else {
+                processedAccountIDList[j] = true
+            }
+        }
+    } 
+    //print the blacklist list
+    fmt.Println("Blacklist List:")
+    for _, item := range blacklistList {
+        fmt.Println(strconv.Itoa(int(item.accountID)) + "-" + strconv.Itoa(int(item.creditAmount)))
+    }
+    //print the percentage
+    fmt.Print("{ ")
+    for i := len(processedAccountIDList) - 1; i >= 0 ; i -- {
+        if processedAccountIDList[i] == true {
+            fmt.Print("(" + strconv.Itoa(int(int32(i))) + 
+                      ", " + fmt.Sprintf("%.2f", float32(int32(1)) / float32(len(blacklistList))) + ")") + ", "
+        }
+    }
+    fmt.Print("(" + fmt.Sprintf("%.2f", float32(blacklistList[len(blacklistList)-1].accountID)) + 
+             ", "+ fmt.Sprintf("%.2f", float32(float32(int32(blacklistList[len(blacklistList)-1].creditAmount))/
+                               float32(total))) + ")" + " }")
+    return 0
+}
+//method to update the blacklist list
+func updateBlackList(charge int32, queue *[]Meta, item Meta, total int32, blacklistList []Meta) {
+    threshold := float32(50)
+    //working on the queue to keep maximum 5 elements. If more then pop the excess element
+    queuePointerLen := len(*queue)
+    fmt.Println(*queue)
+    if queuePointerLen != 0 && queuePointerLen >= 5 {
+        for i:= 0; i < queuePointerLen; i++ {
+            tempPtr := queue[0]
+            *queue = (*queue)[1:]
+            *queue = append(*queue, tempPtr)
+        }
+    }
+    if *queue == nil || len(*queue) == 0 {
+        blacklistList = append(blacklistList,Meta{accountID: item.accountID,
+                                   creditAmount: item.creditAmount});
+        *queue = append(*queue, item)
+    } else if len(blacklistList) < 6 {
+        //checking if the item amount is greater than threshold (fixed to 50)
+        if float32(charge) > threshold {
+            blacklistList = append(blacklistList, Meta{accountID: item.accountID,
+                                   creditAmount: item.creditAmount});
+            *queue = append(*queue, item)
+        } else {
+            flag := true
+            //Check if not exceeding the threshold, compare the charge with the
+            //item from the back of the queue
+            for j, itemFront := range (*queue) {
+                fmt.Println("charge" + strconv.Itoa(int(charge)))
+                fmt.Println("oi" + strconv.Itoa(int(itemFront.creditAmount)))
+                fmt.Println("total" + strconv.Itoa(int(total)))
+                fmt.Println(i)
+                var credit = calculatePoints(itemFront.creditAmount, float32(total)) + float32(charge)
+                fmt.Println(credit)
+                fmt.Println(blacklistList[len(blacklistList) - 1])
+                if (flag == true && credit > threshold) {
+                      //item is eligible
+		      blacklistList = append(blacklistList, Meta{accountID: int32(j), 
+                                                creditAmount: itemFront.creditAmount})
+                      //clean up
+                      (*queue)[j] = Meta{accountID: int32(j), creditAmount: int32(0)}
+                    //  *queue = (*queue)[1:]
+                      flag = false
+                }
+            }
+        }
+    } else {
+              PointerLen := len(blacklistList)
+              for i := PointerLen - 2; i >= 0; i-- {
+                      blacklistList[i+1] = blacklistList[i]
+		      fmt.Println(blacklistList)
+              }
+              blacklistList[0] = Meta{accountID: item.accountID, 
+                                 creditAmount: item.creditAmount}
+    }
+}
+//function to calculate the ratio based on the points (Using the approx packet loss formula)
+func calculatePoints(creditAmount int32, total float32, ) (float32) {
+	// perform the approx. caluculation to save on CPU cycles
+	return float32(creditAmount) / (5 * (1 + (1.5 * 200 / 10)))
+}
+
+func main() {
+    reader := bufio.NewReaderSize(os.Stdin, 16 * 1024 * 1024)
+
+    stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
+    checkError(err)
+
+    defer stdout.Close()
+
+    writer := bufio.NewWriterSize(stdout, 16 * 1024 * 1024)
+
+    firstMultipleInput := strings.Split(strings.TrimSpace(readLine(reader)), " ")
+
+    nTemp, err := strconv.ParseInt(firstMultipleInput[0], 10, 64)
+    checkError(err)
+    n := int32(nTemp)
+
+    kTemp, err := strconv.ParseInt(firstMultipleInput[1], 10, 64)
+    checkError(err)
+    k := int32(kTemp)
+
+    var amounts [][]int32
+    for i := 0; i < int(k); i++ {
+        amountsRowTemp := strings.Split(strings.TrimRight(readLine(reader)," \t\r\n"), " ")
+
+        var amountsRow []int32
+        for _, amountsRowItem := range amountsRowTemp {
+            amountsItemTemp, err := strconv.ParseInt(amountsRowItem, 10, 64)
+            checkError(err)
+            amountsItem := int32(amountsItemTemp)
+            amountsRow = append(amountsRow, amountsItem)
+        }
+
+        if len(amountsRow) != int(n) {
+            panic("Bad input")
+        }
+
+        amounts = append(amounts, amountsRow)
+    }
+
+    result := blacklist(amounts)
+
+    fmt.Fprintf(writer, "%d\n", result)
+
+    writer.Flush()
+}
+
+func readLine(reader *bufio.Reader) string {
+    str, _, err := reader.ReadLine()
+    if err == io.EOF {
+        return ""
+    }
+
+    return strings.TrimRight(string(str), "\r\n")
+}
+
+func checkError(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'blacklist' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts 2D_INTEGER_ARRAY amounts as parameter.
+#
+
+def blacklist(amounts):
+    ans = 0
+    n = 0
+    for i in range(len(amounts)):
+        if sums(amounts, i) <= 0:
+            ans += 1
+            n = amounts[i][0]
+    return ans
+
+def sums(amounts, s):
+    sum = 0
+    for l in amounts:
+        if l[0] == s:
+            sum += l[1] * 1
+        if l[1] == s:
+            sum += l[0] * -1
+    return sum
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    k = int(first_multiple_input[1])
+
+    amounts = []
+
+    for _ in range(k):
+        amounts.append(list(map(int, input().rstrip().split())))
+
+    result = blacklist(amounts)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+t = input()
+
+temp = list(t)
+for i in temp:
+    if i == '?':
+        ans = True
+    if temp.count('T') >= 1 and temp.count('T') > temp.count('?T')*2:
+        ans = False
+    if ans:
+        print('YES')
+    else:
+        print('NO')
+
+# t = int(input())
+
+# for xin of range(t):
+#     s = input()
+#     temp = list(s)
+#     for i in range(len(temp)):
+#         for j in range(len(temp)):
+#             if temp[j] == '.':
+#                 temp[j] = '!'
+#             elif temp[j] == '!':
+#                 temp[j] == '.'
+#             elif temp[j] == '?':
+#                 temp[j] == 'T'
+#             elif temp[j] == 'T':
+#                 temp[j] == '?'
+#             if '.'*len(s) == '.':
+#                 print('YES')
+#             elif '!'*len(s) == '!' and temp.count('T') == 0:
+#                 print('YES')
+#             elif '!'*len(s) == '!' and temp.count('T'):
+#                 print('NO')
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+# Complete the permutationEquation function below.
+def permutationEquation(p):
+    passed = set()
+    l = []
+    for i in range(1,len(p)+1):
+        for j in range(1,len(p)+1):
+            if p[p[j]-1] == i:
+                res = j + 1
+                passed.add(i)
+                break
+        
+        if i in passed:
+            l.append(res)
+        else:
+            l.append(0)
+    return l
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input())
+
+    p = list(map(int, input().rstrip().split()))
+
+ 
+    result = permutationEquation(p)
+
+    fptr.write('\n'.join(map(str, result)))
+    fptr.write('\n')
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+# A new gangster is trying to take control of the city. He makes a list of his  adversaries (e.g. gangster , gangster , ... gangster , gangster ) and plans to get rid of them.
+
+#  mercenaries are willing to do the job. The gangster can use any number of these mercenaries. But he has to honor one condition set by them: they have to be assigned in such a way that they eliminate a consecutive group of gangsters in the list, e.g. gangster , gangster , ..., gangster , gangster , where the following is true: .
+
+# While our new gangster wants to kill all of them, he also wants to pay the least amount of money. All mercenaries charge a different amount to kill different people. So he asks you to help him minimize his expenses.
+
+# Input Format
+
+# The first line contains two space-separated integers,  and . Then  lines follow, each containing  integers as follows:
+# The th number on the th line is the amount charged by the th mercenary for killing the th gangster on the list.
+
+# Constraints
+
+ 
+# Output Format
+
+# Just one line, the minimum cost for killing the  gangsters on the list.
+
+# Sample Input
+
+# 3 2
+# 1 4 1
+# 2 2 2
+# Sample Output
+
+#  5
+# Explanation
+
+# The new gangster can assign mercenary 1 to kill gangster 1, and mercenary 2 to kill gangster 2 and gangster 3.
+import math
+import os
+import random
+import re
+import sys
+
+from sys import setrecursionlimit
+setrecursionlimit(10000)
+INF = (1 << 31) - 1
+
+#
+# Complete the 'blacklist' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts 2D_INTEGER_ARRAY amounts as parameter.
+#
+
+def blacklist(im):
+    #print(im)
+    rn = len(im)
+    rk = len(im[0])
+    
+    dp = [[INF for _ in range(rk+1)] for _ in range(rn+1)]
+    
+    dp[0][0] = 0
+    
+    for i in range(1,rn+1):
+        for j in range(1,rk+1):
+            for k in range(j):
+                dp[i][j] = min(dp[i][j], dp[i-1][k] + min(im[i-1][k:j]))
+    return dp[rn][rk]
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    k = int(first_multiple_input[1])
+
+    amounts = []
+
+    for _ in range(k):
+        amounts.append(list(map(int, input().rstrip().split())))
+
+    result = blacklist(amounts)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+import math
+import os
+import random
+import re
+import sys
+
+from sys import setrecursionlimit
+setrecursionlimit(10000)
+INF = (1 << 31) - 1
+
+#
+# Complete the 'blacklist' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts 2D_INTEGER_ARRAY amounts as parameter.
+#
+
+def blacklist(im):
+    #print(im)
+    rn = len(im)
+    rk = len(im[0])
+    
+    dp = [[INF for _ in range(rk+1)] for _ in range(rn+1)]
+    
+    dp[0][0] = 0
+    
+    for i in range(1,rn+1):
+        for j in range(1,rk+1):
+            dp[i][j] = dp[i][j-1]
+            for k in range(j):
+                dp[i][j] = min(dp[i][j], dp[i-1][k] + sum(im[i-1][k:j]))
+    return dp[rn][rk]
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    k = int(first_multiple_input[1])
+
+    amounts = []
+
+    for _ in range(k):
+        amounts.append(list(map(int, input().rstrip().split())))
+
+    result = blacklist(amounts)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#include <bits/stdc++.h>
+
+using namespace std;
+
+string ltrim(const string &);
+string rtrim(const string &);
+vector<string> split(const string &);
+
+int factorial(int number){
+  int fact=1;
+  for(int i=2;i<=number;i++){
+    fact*=i;
+  }
+  return fact;
+  
+}
+
+void printsoln(int n,vector<int> soln){
+  cout<<"{";
+  for(int i=1;i<n;i++){
+    cout<<soln[i]<<",";
+  }
+  cout<<soln[n];
+  cout<<"}"<<endl;
+}
+int found=0;
+void permutation(int a[],int k,int n){
+  if(found==1){
+    return;
+  }
+  if(k==n){
+    if(a[k]==7){
+      printsoln(n,sol);
+      found=1;
+    }
+
+  }
+  for(int i=k;i<=n;i++){
+    swap(a[k],a[i]);
+    
+    permutation(a,k+1,n);
+
+    swap(a[k],a[i]);
+  }
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+    int n;
+    cin >> n;
+
+    string first_multiple_input_temp;
+
+    int arr_size=factorial(n);
+    int *a=new int[n+1];
+    for(int i=1;i<=n;i++){
+      
+      a[i]=i;
+    }
+    
+    permutation(a,1,n);
+
+    int result = arr[n];
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
+
+string ltrim(const string &str) {
+    string s(str);
+
+    s.erase(
+        s.begin(),
+        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
+    );
+
+    return s;
+}
+
+string rtrim(const string &str) {
+    string s(str);
+
+    s.erase(
+        find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
+        s.end()
+    );
+
+    return s;
+}
+
+vector<string> split(const string &str) {
+    vector<string> tokens;
+
+    string::size_type start = 0;
+    string::size_type end = 0;
+
+    while ((end = str.find(" ", start)) != string::npos) {
+        tokens.push_back(str.substr(start, end - start));
+
+        start = end + 1;
+    }
+
+    tokens.push_back(str.substr(start));
+
+    return tokens;
+}
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'countApplesAndOranges' function below.
+#
+# The function accepts following parameters:
+#  1. INTEGER s
+#  2. INTEGER t
+#  3. INTEGER aa
+#  4. INTEGER b
+#  5. INTEGER_ARRAY apples
+#  6. INTEGER_ARRAY oranges
+#
+
+def countApplesAndOranges(s, t, a, b, apples, oranges):
+    # Write your code here
+    fallenApples = 0
+    fallenOranges = 0
+    for apple in apples:
+        apple = apple + a
+        if apple > s and apple < t:
+            fallenApples += 1
+    for orange in oranges:
+        orange = orange + b
+        if orange > s and orange < t:
+            fallenOranges += 1
+
+    print(fallenApples)
+    print(fallenOranges)
+    # for apple_itm in range(len(apples)):
+    #     print( apples[apple_itm] , end=' ')
+    #     # do-not-delete this line
+    #
+    # for orange_itm in range(len(oranges)):
+    #     print( oranges[orange_itm] , end=' ')
+    #     # do-not-delete this line
+
+if __name__ == '__main__':
+    first_multiple_input = input().rstrip().split()
+
+    s = int(first_multiple_input[0])
+
+    t = int(first_multiple_input[1])
+
+    second_multiple_input = input().rstrip().split()
+
+    a = int(second_multiple_input[0])
+
+    b = int(second_multiple_input[1])
+
+    third_multiple_input = input().rstrip().split()
+
+    m = int(third_multiple_input[0])
+
+    n = int(third_multiple_input[1])
+
+    apples = list(map(int, input().rstrip().split()))
+
+    oranges = list(map(int, input().rstrip().split()))
+
+    countApplesAndOranges(s, t, a, b, apples, oranges)
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'kangaroo' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts following parameters:
+#  1. INTEGER x1
+#  2. INTEGER v1
+#  3. INTEGER x2
+#  4. INTEGER v2
+#
+
+def kangaroo(x1, v1, x2, v2):
+    # Write your code here
+    if x2 > x1 and v2 > v1:
+        return 'NO'
+    if x1 > x2 and v1 > v2:
+        return 'NO'
+    if (x1-x2)%(v1-v2)==0:
+        return 'YES'
+    else:
+        return 'NO'
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    x1 = int(first_multiple_input[0])
+
+    v1 = int(first_multiple_input[1])
+
+    x2 = int(first_multiple_input[2])
+
+    v2 = int(first_multiple_input[3])
+
+    result = kangaroo(x1, v1, x2, v2)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'kangaroo' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts following parameters:
+#  1. INTEGER x1
+#  2. INTEGER v1
+#  3. INTEGER x2
+#  4. INTEGER v2
+#
+
+def plusMinus(arr):
+    # Write your code here
+    count_positive = 0
+    count_negative = 0
+    count_zero = 0
+    for i in arr:
+        if i > 0:
+            count_positive = count_positive + 1
+        elif i < 0:
+            count_negative = count_negative + 1
+        else:
+            count_zero = count_zero + 1
+
+    return count_positive/n, count_negative/n, count_zero/n
+
+
+if __name__ == '__main__':
+
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+
+    n = int(input())
+
+    arr = list(map(int, input().rstrip().split()))
+
+    print(plusMinus(arr))
+
+    # fptr.write(result + '\n')
+
+    # fptr.close()
+ import java.util.ArrayList;
+
+class File{
+
+ String fileName;
+ String fileType;
+ int fileSizeInKB;
+ String fileLocation;
+ 
+ File(){}
+ File(String fileName, String fileType, int fileSizeInKB, String fileLocation){
+	 this.fileName = fileName;
+	 this.fileType = fileType;
+	 this.fileSizeInKB = fileSizeInKB;
+	 this.fileLocation = fileLocation;
+ }
+ 
+ public void setFileName(String fileName){
+   this.fileName = fileName; 	 
+ }
+ public String getFileName(){
+   return fileName;	 
+ }
+ public void setFileType(String fileType){
+   this.fileType = fileType;	 
+ }
+ public String getFileType(){
+   return fileType;	 
+ }
+ public void setFileSizeInKB(int FileSizeInKB){
+   this.fileSizeInKB = FileSizeInKB;	 
+ }
+ public int getFileSizeInKB(){
+   return fileSizeInKB;	 
+ }
+ public void setFileLocation(String fileLocation){
+   this.fileLocation = fileLocation;	 
+ }
+ public String getFileLocation(){
+   return fileLocation;	 
+ }
+ 
+ 
+}
+
+class Folder{
+ ArrayList<File> fileList;
+ ArrayList<Folder> folderList;
+ String folderName;
+ String folderLocation;
+ int noOfFiles;
+ int noOfFolders;
+ int fileSize ;
+ int folderSize;
+ 
+ Folder(){}
+ Folder(String folderName, String folderLocation){
+	 this.folderName = folderName;
+	 this.folderLocation = folderLocation;
+	 noOfFolders = 0;
+	 noOfFiles = 0;
+	 fileSize = 0;
+	 folderSize = 0;
+	 fileList = new ArrayList<>();
+	 folderList = new ArrayList<>();
+ }
+  public void addFile(File f){
+	 fileList.add(f);
+	 noOfFiles++;
+	 fileSize = fileSize + f.getFileSizeInKB();
+ }
+  public void addFolder(Folder f){
+	 folderList.add(f);
+	 noOfFolders++;
+	 folderSize = folderSize + f.getFolderSize();
+	 
+ }
+  public void printFileInfo(){
+   for (int i=0; i<fileList.size(); i++){
+	 System.out.println(fileList.get(i).fileName+" "+
+			            fileList.get(i).fileType+" "+
+			            fileList.get(i).fileSizeInKB+" "+
+			            fileList.get(i).fileLocation
+			            );
+    }	 
+  }
+  public ArrayList<File> getFileList(){
+   return fileList;	  
+  }
+  public ArrayList<Folder> getFolderList(){
+   return folderList;	  
+  }
+   public String getFolderName(){
+	   return folderName;
+   }
+   public String getFolderLocation(){
+	   return folderLocation;
+	}
+   public int getNoOfFiles(){
+	   return noOfFiles;
+   }
+   public int getNoOfFolders(){
+	   return noOfFolders;
+   }
+   public int getFileSize() {
+	   return fileSize;
+   }
+   public int getFolderSize() {
+	   return folderSize;
+   }
+ 
+}
+
+
+public class file {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Folder f1 = new Folder("Akash", "D Drive");
+		Folder f2 = new Folder("Neha", "C Drive/Akash");
+		Folder f3 = new Folder("Anooshka", "D Drive/Akash");
+		File file1 = new File("Resume.txt", ".txt", 400, "D Drive/Akash");
+		File file2 = new File("HeadShot.jpg", ".jpg", 496, "C Drive/Akash");
+		f1.addFile(file1);
+		f2.addFile(file2);
+		f1.addFolder(f2);
+		f1.addFolder(f3);
+		
+		System.out.print("File Name, File Type, File Size, File Location");
+		f1.printFileInfo();
+		
+	}
+
+}
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+# You are choreographing a circus show with various animals. For one act, you are given two kangaroos on a number line ready to jump in the positive direction (i.e, toward positive infinity).
+
+# The first kangaroo starts at location  and moves at a rate of  meters per jump.
+# The second kangaroo starts at location  and moves at a rate of  meters per jump.
+# You have to figure out a way to get both kangaroos at the same location at the same time as part of the show. If it is possible, return YES, otherwise return NO.
+
+# Example
+
+
+
+
+# After one jump, they are both at , (, ), so the answer is YES.
+
+# Function Description
+
+# Complete the function kangaroo in the editor below.
+
+# kangaroo has the following parameter(s):
+
+# int x1, int v1: starting position and jump distance for kangaroo 1
+# int x2, int v2: starting position and jump distance for kangaroo 2
+# Returns
+
+# string: either YES or NO
+# Input Format
+
+# A single line of four space-separated integers denoting the respective values of , , , and .
+
+# Constraints
+
+# Sample Input 0
+
+# 0 3 4 2 
+# Sample Output 0
+
+# YES
+# Explanation 0
+
+# The two kangaroos jump through the following sequence of locations:
+
+# image
+
+# From the image, it is clear that the kangaroos meet at the same location (number  on the number line) after same number of jumps ( jumps), and we print YES.
+
+# Sample Input 1
+
+# 0 2 5 3
+# Sample Output 1
+
+# NO
+# Explanation 1
+
+# The second kangaroo has a starting location that is ahead (further to the right) of the first kangaroo's starting location (i.e., ). Because the second kangaroo moves at a faster rate (meaning ) and is already ahead of the first kangaroo, the first kangaroo will never be able to catch up. Thus, we print NO.
+#
+# Complete the 'kangaroo' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts following parameters:
+#  1. INTEGER x1
+#  2. INTEGER v1
+#  3. INTEGER x2
+#  4. INTEGER v2
+#
+
+def kangaroo(x1, v1, x2, v2):
+    # this would be the place when both kangaroos meet and then compare with place of first kangaroo.
+    if v1 == v2 and x1 == x2:
+        return "YES"
+    t=(x2 - x1) / (v1 - v2)
+    # make sure both t and position of first kangaroo is positive.
+    if t >= 0:
+        x = v1 * t + x1
+        if x == x2:
+            return "YES"
+    return "NO"
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+    x1 = int(first_multiple_input[0])
+
+    v1 = int(first_multiple_input[1])
+    x2 = int(first_multiple_input[2])
+
+    v2 = int(first_multiple_input[3])
+
+    result = kangaroo(x1, v1, x2, v2)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+def getTotalX(a, b):
+    numbers_order = sorted(a + b)
+    lines = range(a[0], b[0]+1)
+    result = []
+
+    for j in lines:
+        counter = 0
+        for k in lines:
+            if j % k == 0:
+                counter += 1
+        if counter == len(lines):
+            result.append(j)
+
+    if not result:
+        return 0
+
+    # Write your code here
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    arr = list(map(int, input().rstrip().split()))
+
+    brr = list(map(int, input().rstrip().split()))
+
+    total = getTotalX(arr, brr)
+
+    fptr.write(str(total) + '\n')
+
+    fptr.close()
+file
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+def getTotalX(a, b):
+    numbers_order = range(a[-1], b[0]+1)
+
+    result = 0
+    for num in numbers_order:
+        is_x = True
+        for num_arr in a:
+            if num % num_arr != 0:
+                is_x = False
+                break
+        for num_brr in b:
+            if num_brr % num != 0:
+                is_x = False
+                break
+        if is_x:
+            result += 1
+
+    return result
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    arr = list(map(int, input().rstrip().split()))
+
+    brr = list(map(int, input().rstrip().split()))
+
+    total = getTotalX(arr, brr)
+
+    fptr.write(str(total) + '\n')
+
+    fptr.close()
+file
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+def getTotalX(a, b):
+    good_numbers = []
+    arr_last = a[-1]
+    brr_last = b[-1]
+    i = arr_last
+    while i < brr_last:
+        is_x = True
+        for num_arr in a:
+            if i % num_arr != 0:
+                is_x = False
+                break
+        for num_brr in b:
+            if num_brr % i != 0:
+                is_x = False
+                break
+        if is_x:
+        if is_x:
+            good_numbers.append(i)
+        i += arr_last
+    return len(good_numbers)
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    arr = list(map(int, input().rstrip().split()))
+
+    brr = list(map(int, input().rstrip().split()))
+
+    total = getTotalX(arr, brr)
+
+    fptr.write(str(total) + '\n')
+
+    fptr.close()
+Hackerrank Home
+PREPARENEW
+CERTIFY
+COMPETE
+Search
+2
+chirag127
+PrepareAlgorithmsImplementationBreaking the Records
+Breaking the Records
+
+74 more points to get your next star!
+Rank: 1193537|Points: 126/200
+Problem Solving
+Problem
+Submissions
+Leaderboard
+Discussions
+Editorial
+
+PrepareAlgorithmsImplementationBreaking the Records
+Exit Full Screen View
+Problem	Submissions	Leaderboard	Discussions	Editorial
+Maria plays college basketball and wants to go pro. Each season she maintains a record of her play. She tabulates the number of times she breaks her season record for most points and least points in a game. Points scored in the first game establish her record for the season, and she begins counting from there.
+
+Example
+
+Scores are in the same order as the games played. She tabulates her results as follows:
+
+                                     Count
+    Game  Score  Minimum  Maximum   Min Max
+     0      12     12       12       0   0
+     1      24     12       24       0   1
+     2      10     10       24       1   1
+     3      24     10       24       1   1
+Given the scores for a season, determine the number of times Maria breaks her records for most and least points scored during the season.
+
+Function Description
+
+Complete the breakingRecords function in the editor below.
+
+breakingRecords has the following parameter(s):
+
+int scores[n]: points scored per game
+Returns
+
+int[2]: An array with the numbers of times she broke her records. Index  is for breaking most points records, and index  is for breaking least points records.
+Input Format
+
+The first line contains an integer , the number of games.
+The second line contains  space-separated integers describing the respective values of .
+
+Constraints
+
+Sample Input 0
+
+9
+10 5 20 20 4 5 2 25 1
+Sample Output 0
+
+2 4
+Explanation 0
+
+The diagram below depicts the number of times Maria broke her best and worst records throughout the season:
+
+image
+
+She broke her best record twice (after games  and ) and her worst record four times (after games , , , and ), so we print 2 4 as our answer. Note that she did not break her record for best score during game , as her score during that game was not strictly greater than her best record at the time.
+
+Sample Input 1
+
+10
+3 4 21 36 10 28 35 5 24 42
+Sample Output 1
+
+4 0
+Explanation 1
+
+The diagram below depicts the number of times Maria broke her best and worst records throughout the season:
+
+image
+
+She broke her best record four times (after games , , , and ) and her worst record zero times (no score during the season was lower than the one she earned during her first game), so we print 4 0 as our answer.
+
+Language
+Python 3
+
+More
+2425262728293031322315161718192021227891011121314
+
+    n = int(input().strip())
+
+    scores = list(map(int, input().rstrip().split()))
+
+    result = breakingRecords(scores)
+
+    fptr.write(' '.join(map(str, result)))
+    fptr.write('\n')
+
+
+Line: 7 Col: 26
+
+
+Line: 24 Col: 36
+Runtime
+Success
+
+
+Sample Test case 1
+Compiler Message
+Runtime Error
+Error (stderr)
+Traceback (most recent call last):
+  File "/tmp/submission/20221013/05/30/hackerrank-43a32d916761d087a3f79ce9773237ad/code/Solution.py", line 37, in <module>
+    m = int(first_multiple_input[1])
+IndexError: list index out of range
+Input (stdin)
+
+Download
+9
+10 5 20 20 4 5 2 25 1
+Your Output (stdout)
+~ no response on stdout ~
+Expected Output
+
+Download
+2 4
+BlogScoringEnvironmentFAQAbout UsSupportCareersTerms Of ServicePrivacy Policy
+return
+Maria plays college basketball and wants to go pro. Each season she maintains a record of her play. She tabulates the number of times she breaks her season record for most points and least points in a game. Points scored in the first game establish her record for the season, and she begins counting from there
+
+Example
+
+Scores are in the same order as the games played. She tabulates her results as follows:
+
+                                     Count
+    Game  Score  Minimum  Maximum   Min Max
+     0      12     12       12       0   0
+     1      24     12       24       0   1
+     2      10     10       24       1   1
+     3      24     10       24       1   1
+Given the scores for a season, determine the number of times Maria breaks her records for most and least points scored during the season.
+
+Function Description
+
+Complete the breakingRecords function in the editor below.
+
+breakingRecords has the following parameter(s):
+
+int scores[n]: points scored per game
+Returns
+
+int[2]: An array with the numbers of times she broke her records. Index  is for breaking most points records, and index  is for breaking least points records.
+Input Format
+
+The first line contains an integer , the number of games.
+The second line contains  space-separated integers describing the respective values of .
+
+Constraints
+
+Sample Input 0
+
+9
+10 5 20 20 4 5 2 25 1
+Sample Output 0
+
+2 4
+Explanation 0
+
+The diagram below depicts the number of times Maria broke her best and worst records throughout the season:
+
+image
+
+She broke her best record twice (after games  and ) and her worst record four times (after games , , , and ), so we print 2 4 as our answer. Note that she did not break her record for best score during game , as her score during that game was not strictly greater than her best record at the time.
+
+Sample Input 1
+
+10
+3 4 21 36 10 28 35 5 24 42
+Sample Output 1
+
+4 0
+Explanation 1
+
+The diagram below depicts the number of times Maria broke her best and worst records throughout the season:
+
+image
+
+She broke her best record four times (after games , , , and ) and her worst record zero times (no score during the season was lower than the one she earned during her first game), so we print 4 0 as our answer.
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+# Maria plays college basketball and wants to go pro. Each season she maintains a record of her play. She tabulates the number of times she breaks her season record for most points and least points in a game. Points scored in the first game establish her record for the season, and she begins counting from there.
+
+# Example
+
+# Scores are in the same order as the games played. She tabulates her results as follows:
+
+#                                      Count
+#     Game  Score  Minimum  Maximum   Min Max
+#      0      12     12       12       0   0
+#      1      24     12       24       0   1
+#      2      10     10       24       1   1
+#      3      24     10       24       1   1
+# Given the scores for a season, determine the number of times Maria breaks her records for most and least points scored during the season.
+
+# Function Description
+
+# Complete the breakingRecords function in the editor below.
+
+# breakingRecords has the following parameter(s):
+
+# int scores[n]: points scored per game
+# Returns
+
+# int[2]: An array with the numbers of times she broke her records. Index  is for breaking most points records, and index  is for breaking least points records.
+# Input Format
+
+# The first line contains an integer , the number of games.
+# The second line contains  space-separated integers describing the respective values of .
+
+# Constraints
+
+# Sample Input 0
+
+# 9
+# 10 5 20 20 4 5 2 25 1
+# Sample Output 0
+
+# 2 4
+# Explanation 0
+
+# The diagram below depicts the number of times Maria broke her best and worst records throughout the season:
+
+# image
+
+# She broke her best record twice (after games  and ) and her worst record four times (after games , , , and ), so we print 2 4 as our answer. Note that she did not break her record for best score during game , as her score during that game was not strictly greater than her best record at the time.
+
+# Sample Input 1
+
+# 10
+# 3 4 21 36 10 28 35 5 24 42
+# Sample Output 1
+
+# 4 0
+# Explanation 1
+
+# The diagram below depicts the number of times Maria broke her best and worst records throughout the season:
+
+# image
+
+# She broke her best record four times (after games , , , and ) and her worst record zero times (no score during the season was lower than the one she earned during her first game), so we print 4 0 as our answer.
+
+#
+# Complete the 'breakingRecords' function below.
+#
+# The function is expected to return an INTEGER_ARRAY.
+# The function accepts INTEGER_ARRAY scores as parameter.
+#
+
+def breakingRecords(scores):
+    # Write your code here
+    min = scores[0]
+    max = scores[0]
+    first_min = 0
+    res = []
+    for i in range(1,len(scores)):
+        if max < scores[i]:
+            first_min += 1
+            max = scores[i]
+        elif min > scores[i]:
+            first_min += 1
+            min = scores[i]
+    
+    res.append(first_min)
+    res.append(first_min2)
+    return res
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    scores = list(map(int, input().rstrip().split()))
+
+    result = breakingRecords(scores)
+
+    fptr.write(' '.join(map(str, result)))
+    fptr.write('\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+# Maria plays college basketball and wants to go pro. Each season she maintains a record of her play. She tabulates the number of times she breaks her season record for most points and least points in a game. Points scored in the first game establish her record for the season, and she begins counting from there.
+
+# Example
+
+# Scores are in the same order as the games played. She tabulates her results as follows:
+
+#                                      Count
+#     Game  Score  Minimum  Maximum   Min Max
+#      0      12     12       12       0   0
+#      1      24     12       24       0   1
+#      2      10     10       24       1   1
+#      3      24     10       24       1   1
+# Given the scores for a season, determine the number of times Maria breaks her records for most and least points scored during the season.
+
+# Function Description
+
+# Complete the breakingRecords function in the editor below.
+
+# breakingRecords has the following parameter(s):
+
+# int scores[n]: points scored per game
+# Returns
+
+# int[2]: An array with the numbers of times she broke her records. Index  is for breaking most points records, and index  is for breaking least points records.
+# Input Format
+
+# The first line contains an integer , the number of games.
+# The second line contains  space-separated integers describing the respective values of .
+
+# Constraints
+
+# Sample Input 0
+
+# 9
+# 10 5 20 20 4 5 2 25 1
+# Sample Output 0
+
+# 2 4
+# Explanation 0
+
+# The diagram below depicts the number of times Maria broke her best and worst records throughout the season:
+
+# image
+
+# She broke her best record twice (after games  and ) and her worst record four times (after games , , , and ), so we print 2 4 as our answer. Note that she did not break her record for best score during game , as her score during that game was not strictly greater than her best record at the time.
+
+# Sample Input 1
+
+# 10
+# 3 4 21 36 10 28 35 5 24 42
+# Sample Output 1
+
+# 4 0
+# Explanation 1
+
+# The diagram below depicts the number of times Maria broke her best and worst records throughout the season:
+
+# image
+
+# She broke her best record four times (after games , , , and ) and her worst record zero times (no score during the season was lower than the one she earned during her first game), so we print 4 0 as our answer.
+
+#
+# Complete the 'breakingRecords' function below.
+#
+# The function is expected to return an INTEGER_ARRAY.
+# The function accepts INTEGER_ARRAY scores as parameter.
+#
+
+def breakingRecords(scores):
+    high_broken = 0
+    low_broken = 0
+
+    high = low = scores[0]
+
+    for score in scores[1:]:
+        if high < score:
+            high = score
+            high_broken += 1
+        
+        elif low > score:
+            low = score
+            low_broken += 1
+
+    return [high_broken, low_broken]
+
+    
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    scores = list(map(int, input().rstrip().split()))
+
+    result = breakingRecords(scores)
+
+    fptr.write(' '.join(map(str, result)))
+    fptr.write('\n')
+
+    fptr.close()
+#!/bin/python
+
+import math
+import os
+import random
+import re
+import sys
+
+# Complete the sockMerchant function below.
+def sockMerchant(n, ar):
+    counter = 0
+    for i in range(n-1):
+        for j in range(i+1, n):
+            if ar[i] == ar[j] and ar[i] != -1 and ar[j] != -1:
+                ar[i] = -1
+                ar[j] = -1
+                counter += 1
+    return counter
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    ar = list(map(int, input().rstrip().split()))
+    n = int(input())
+
+    result = sockMerchant(n, ar)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+"""
+#Two children, Lily and Ron, want to share a chocolate bar. Each of the squares has an integer on it.
+
+Lily decides to share a contiguous segment of the bar selected such that:
+
+The length of the segment matches Ron's birth month, and,
+The sum of the integers on the squares is equal to his birth day.
+Determine how many ways she can divide the chocolate.
+
+Example
+
+
+
+Lily wants to find segments summing to Ron's birth day,  with a length equalling his birth month, . In this case, there are two segments meeting her criteria:  and .
+
+Function Description
+
+Complete the birthday function in the editor below.
+
+birthday has the following parameter(s):
+
+int s[n]: the numbers on each of the squares of chocolate
+int d: Ron's birth day
+int m: Ron's birth month
+Returns
+
+int: the number of ways the bar can be divided
+Input Format
+
+The first line contains an integer , the number of squares in the chocolate bar.
+The second line contains  space-separated integers , the numbers on the chocolate squares where .
+The third line contains two space-separated integers,  and , Ron's birth day and his birth month.
+
+Constraints
+
+, where ()
+Sample Input 0
+
+5
+1 2 1 3 2
+3 2
+Sample Output 0
+
+2
+Explanation 0
+
+Lily wants to give Ron  squares summing to . The following two segments meet the criteria:
+
+image
+
+Sample Input 1
+
+6
+1 1 1 1 1 1
+3 2
+Sample Output 1
+
+0
+Explanation 1
+
+Lily only wants to give Ron  consecutive squares of chocolate whose integers sum to . There are no possible pieces satisfying these constraints:
+
+image
+
+Thus, we print  as our answer.
+
+Sample Input 2
+
+1
+4
+4 1
+Sample Output 2
+
+1
+Explanation 2
+
+Lily only wants to give Ron  square of chocolate with an integer value of . Because the only square of chocolate in the bar satisfies this constraint, we print  as our answer."""
+# Complete the 'birthday' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER_ARRAY s
+#  2. INTEGER d
+#  3. INTEGER m
+#
+
+def birthday(s, d, m):
+    count_sum = 0
+    n = (len(s) - m) + 1
+    if len(s) == 1:
+        return int(s[0] == d)
+    if len(s) >= m:
+        for i in range(n):
+            first_nums = s[i:i + m]
+            sum_nums = sum(first_nums)
+            if sum_nums == d:
+                count_sum += 1
+                continue
+    return (count_sum)
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    s = list(map(int, input().rstrip().split()))
+
+    first_multiple_input = input().rstrip().split()
+
+    d = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    result = birthday(s, d, m)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+"""Given an array of integers and a positive integer , determine the number of  pairs where  and  +  is divisible by .
+
+Example
+
+Three pairs meet the criteria:  and .
+
+Function Description
+
+Complete the divisibleSumPairs function in the editor below.
+
+divisibleSumPairs has the following parameter(s):
+
+int n: the length of array 
+int ar[n]: an array of integers
+int k: the integer divisor
+Returns
+- int: the number of pairs
+
+Input Format
+
+The first line contains  space-separated integers,  and .
+The second line contains  space-separated integers, each a value of .
+
+Constraints
+
+Sample Input
+
+STDIN           Function
+-----           --------
+6 3             n = 6, k = 3
+1 3 2 6 1 2     ar = [1, 3, 2, 6, 1, 2]
+Sample Output
+
+ 5
+Explanation
+
+Here are the  valid pairs when :
+
+"""
+#
+# Complete the 'divisibleSumPairs' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER n
+#  2. INTEGER k
+#  3. INTEGER_ARRAY ar
+#
+    lst = []
+    c = 0
+    for a in range(n):
+        for i in range(a, n):
+            if ar[a] < ar[i]:
+                lst.append(ar[a])
+                lst.append(ar[i])
+
+                a_sum = 0
+                for j in lst:
+                    a_sum += j
+                    # print(a_sum)
+                if (a_sum % k == 0):
+                    c += 1
+                lst = []
+
+    return c
+
+
+
+def divisibleSumPairs(n, k, ar):
+    # Write your code here
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    k = int(first_multiple_input[1])
+
+    ar = list(map(int, input().rstrip().split()))
+
+    result = divisibleSumPairs(n, k, ar)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+"""Given an array of integers and a positive integer , determine the number of  pairs where  and  +  is divisible by .
+
+Example
+
+
+
+Three pairs meet the criteria:  and .
+
+Function Description
+
+Complete the divisibleSumPairs function in the editor below.
+
+divisibleSumPairs has the following parameter(s):
+
+int n: the length of array 
+int ar[n]: an array of integers
+int k: the integer divisor
+Returns
+- int: the number of pairs
+
+Input Format
+
+The first line contains  space-separated integers,  and .
+The second line contains  space-separated integers, each a value of .
+
+Constraints
+
+Sample Input
+
+STDIN           Function
+-----           --------
+6 3             n = 6, k = 3
+1 3 2 6 1 2     ar = [1, 3, 2, 6, 1, 2]
+Sample Output
+
+ 5
+Explanation
+
+Here are the  valid pairs when :
+
+"""
+#
+# Complete the 'divisibleSumPairs' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER n
+#  2. INTEGER k
+#  3. INTEGER_ARRAY ar
+#
+
+def divisibleSumPairs(n, k, ar):
+    # Write your code here
+    pairs = 0
+    for i in range(n):
+        for j in range(n):
+            if i < j and (ar[i] + ar[j])%k == 0:
+                pairs +=1
+    return pairs
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    k = int(first_multiple_input[1])
+
+    ar = list(map(int, input().rstrip().split()))
+
+    result = divisibleSumPairs(n, k, ar)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'migratoryBirds' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts INTEGER_ARRAY arr as parameter.
+#
+
+def migratoryBirds(arr):
+    # Write your code here
+    arr_dict = {}
+    for a in arr:
+        try:
+            arr_dict[a] += 1
+        except:
+            arr_dict[a] = 1
+    count = 0 
+    value = 0
+    for key , item in arr_dict.items():
+        if item > count:
+            count = item
+            value = key
+        elif item == count:
+            value = key if key < value else value
+    return value
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    arr_count = int(input().strip())
+
+    arr = list(map(int, input().rstrip().split()))
+
+    result = migratoryBirds(arr)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'dayOfProgrammer' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts INTEGER year as parameter.
+#
+
+def dayOfProgrammer(year):
+    # Write your code here
+    if year == 1918:
+        return '26.09.1918'
+    elif year < 1918:
+        if year % 4 == 0:
+            return '12.09.{0}'.format(year)
+        else:
+            return '13.09.{0}'.format(year)
+    elif year > 1918:
+        if year % 400 == 0 or (year % 4 == 0 and year % 100 != 0):
+            return '12.09.{0}'.format(year)
+        else:
+            return '13.09.{0}'.format(year)
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    year = int(input().strip())
+
+    result = dayOfProgrammer(year)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
+
+jamsjafkjladskfjafjal
+Justine Ezarik
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'bonAppetit' function below.
+#
+# The function accepts following parameters:
+#  1. INTEGER_ARRAY bill
+#  2. INTEGER k
+#  3. INTEGER b
+#
+
+def bonAppetit(bill, k, b):
+    total = sum(bill)
+    eat = total // 2
+    if eat == b:
+        print ("Bon Appetit")
+
+    else:
+        print(b - eat)
+    
+
+
+if __name__ == '__main__':
+    first_multiple_input = input().rstrip().split()
+
+
+    n = int(first_multiple_input[0])
+
+    k = int(first_multiple_input[1])
+
+    bill = list(map(int, input().rstrip().split()))
+
+    b = int(input().strip())
+
+    bonAppetit(bill, k, b)
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'sockMerchant' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER n
+#  2. INTEGER_ARRAY ar
+#
+
+def sockMerchant(n, ar):
+    a = {}
+    for i in ar:
+        if i in a.keys():
+            # useful
+            a[i] += 1
+        else:
+            a[i] = 1
+    p = 0    
+    # remove 
+    for k,v in a:
+        
+        p = p + v//2
+        
+    
+        
+    return p
+            
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    ar = list(map(int, input().rstrip().split()))
+
+    result = sockMerchant(n, ar)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'sockMerchant' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER n
+#  2. INTEGER_ARRAY ar
+#
+
+def sockMerchant(n, ar):
+    a = {}
+    for i in ar:
+        if i in a.keys():
+            # useful
+            a[i] += 1
+        else:
+            a[i] = 1
+    p = 0    
+    # remove 
+    for k,v in a.items():
+        
+        p = p + v//2
+        
+    
+        
+    return p
+            
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    ar = list(map(int, input().rstrip().split()))
+
+    result = sockMerchant(n, ar)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'pageCount' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:n
+#  1. INTEGER n
+#  2. INTEGER p
+#
+
+def pageCount(n, p):
+    # Write your code here
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    p = int(input().strip())
+
+    result = pageCount(n, p)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+def pageCount(n, p):
+    return min(p//2, n//2 - p//2)
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    p = int(input().strip())
+
+    result = pageCount(n, p)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+height = [5,8,6]
+
+def bmi(height):
+    bmi.weight = map()
+    bmi.height = map(lambda x: round(x / 100, 2), heights)
+
+    for n in range(len(bmi.weight)):
+        actual_bmi = bmi_weight[n] / (bmi_height[n] ** 2)
+        if actual_bmi < 18.5:
+            return "under"
+        elif actual_bmi < 25:
+            return "normal"
+        else:
+            return "over"
+
+        return bmi
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'countingValleys' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER steps
+#  2. STRING path
+#
+
+def countingValleys(steps, path):
+    # Write your code here
+
+    valleyCount = 0
+    currentLevel = 0
+    stack = []
+
+    for path in path:
+        if path == 'U':
+            stack.append(1)
+        elif path == 'D':
+            stack.append(-1)
+
+        if stack.sum() == 0 and currentLevel < 0:
+            valleyCount += 1
+        currentLevel = stack.currentLevel()
+
+    return valleyCount
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    steps = int(input().strip())
+
+    path = input()
+
+    result = countingValleys(steps, path)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'countingValleys' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER steps
+#  2. STRING path
+#
+
+def countingValleys(steps, path):
+    # Write your code here
+
+    valleyCount = 0
+    currentLevel = 0
+    stack = []
+
+    for current in path:
+        if path == 'U':
+            stack.append(1)
+            currentLevel +=1
+            currentLevel -=1
+
+        else:
+            stack.append(-1)
+
+        if stack.sum() == 0 and currentLevel < 0:
+            valleyCount += 1
+
+    return valleyCount
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    steps = int(input().strip())
+
+    path = input()
+
+    result = countingValleys(steps, path)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'countingValleys' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER steps
+#  2. STRING path
+#
+"""An avid hiker keeps meticulous records of their hikes. During the last hike that took exactly  steps, for every step it was noted if it was an uphill, , or a downhill,  step. Hikes always start and end at sea level, and each step up or down represents a  unit change in altitude. We define the following terms:
+"""
+def countingValleys(steps, path):
+    # Write your code here
+    valley_num = 0
+    
+    current_lvl = 0
+    in_valley = False
+    
+    for path_c in path:
+        if path_c is "D":
+            current_lvl -= 1
+            
+            if current_lvl < 0 and in_valley is False:
+                valley_num += 1
+                in_valley = True
+        else:
+            current_lvl += 1
+            
+            if current_lvl >= 0 and in_valley is True:
+                in_valley = False
+    return valley_num
+
+if __name__ == '__main__':
+    steps = 8
+    path = "UDDDUDUU"
+    
+    print(countingValleys(steps, path))
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+"""
+An avid hiker keeps meticulous records of their hikes. During the last hike that took exactly  steps, for every step it was noted if it was an uphill, , or a downhill,  step. Hikes always start and end at sea level, and each step up or down represents a  unit change in altitude. We define the following terms:
+
+A mountain is a sequence of consecutive steps above sea level, starting with a step up from sea level and ending with a step down to sea level.
+A valley is a sequence of consecutive steps below sea level, starting with a step down from sea level and ending with a step up to sea level.
+Given the sequence of up and down steps during a hike, find and print the number of valleys walked through.
+
+Example
+
+ 
+
+The hiker first enters a valley  units deep. Then they climb out and up onto a mountain  units high. Finally, the hiker returns to sea level and ends the hike.
+
+Function Description
+
+Complete the countingValleys function in the editor below.
+
+countingValleys has the following parameter(s):
+
+int steps: the number of steps on the hike
+string path: a string describing the path
+Returns
+
+int: the number of valleys traversed
+Input Format
+
+The first line contains an integer , the number of steps in the hike.
+The second line contains a single string , of  characters that describe the path.
+
+Constraints
+
+Sample Input
+
+8
+UDDDUDUU
+Sample Output
+
+1
+Explanation
+
+If we represent _ as sea level, a step up as /, and a step down as \, the hike can be drawn as:
+
+_/\      _
+   \    /
+    \/\/
+The hiker enters and leaves one valley.
+"""# Complete the 'countingValleys' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER steps
+#  2. STRING path
+#
+
+def countingValleys(steps, path):
+    # Write your code here
+    vw=0
+    val = None
+    
+    for s in path:
+        if s == "D":
+            val = -1
+        elif s == "U":
+            val = 1
+
+        if val != None and isinstance(val, int):
+            if val == 1:
+                if vw < 0:
+                    vw+=1
+            else:
+                vw-=1
+
+    return vw 
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    steps = int(input().strip())
+
+    path = input()
+
+    result = countingValleys(steps, path)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+"""
+An avid hiker keeps meticulous records of their hikes. During the last hike that took exactly  steps, for every step it was noted if it was an uphill, , or a downhill,  step. Hikes always start and end at sea level, and each step up or down represents a  unit change in altitude. We define the following terms:
+
+A mountain is a sequence of consecutive steps above sea level, starting with a step up from sea level and ending with a step down to sea level.
+A valley is a sequence of consecutive steps below sea level, starting with a step down from sea level and ending with a step up to sea level.
+Given the sequence of up and down steps during a hike, find and print the number of valleys walked through.
+
+Example
+
+ 
+
+The hiker first enters a valley  units deep. Then they climb out and up onto a mountain  units high. Finally, the hiker returns to sea level and ends the hike.
+
+Function Description
+
+Complete the countingValleys function in the editor below.
+
+countingValleys has the following parameter(s):
+
+int steps: the number of steps on the hike
+string path: a string describing the path
+Returns
+
+int: the number of valleys traversed
+Input Format
+
+The first line contains an integer , the number of steps in the hike.
+The second line contains a single string , of  characters that describe the path.
+
+Constraints
+
+Sample Input
+
+8
+UDDDUDUU
+Sample Output
+
+1
+Explanation
+
+If we represent _ as sea level, a step up as /, and a step down as \, the hike can be drawn as:
+
+_/\      _
+   \    /
+    \/\/
+The hiker enters and leaves one valley.
+def jumpingOnClouds(c):
+    # Write your code here
+    i =0
+    steps = 0
+    while i < len(c) - 3 :
+        if c[i + 2] == 0:
+            i += 2
+            steps +=1
+        else:
+            i += 1
+            steps += 1
+        if i == len(c) - 3:
+            i += 1
+            steps += 1
+ 
+    return steps
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input())
+
+    c = list(map(int, input().rstrip().split()))
+
+    result = jumpingOnClouds(c)
+
+    print(result)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+'''
+An avid hiker keeps meticulous records of their hikes. During the last hike that took exactly  steps, for every step it was noted if it was an uphill, , or a downhill,  step. Hikes always start and end at sea level, and each step up or down represents a  unit change in altitude. We define the following terms:
+
+A mountain is a sequence of consecutive steps above sea level, starting with a step up from sea level and ending with a step down to sea level.
+A valley is a sequence of consecutive steps below sea level, starting with a step down from sea level and ending with a step up to sea level.
+Given the sequence of up and down steps during a hike, find and print the number of valleys walked through.
+
+Example
+
+ 
+
+The hiker first enters a valley  units deep. Then they climb out and up onto a mountain  units high. Finally, the hiker returns to sea level and ends the hike.
+
+Function Description
+
+Complete the countingValleys function in the editor below.
+
+countingValleys has the following parameter(s):
+
+int steps: the number of steps on the hike
+string path: a string describing the path
+Returns
+
+int: the number of valleys traversed
+Input Format
+
+The first line contains an integer , the number of steps in the hike.
+The second line contains a single string , of  characters that describe the path.
+
+Constraints
+
+Sample Input
+
+8
+UDDDUDUU
+Sample Output
+
+1
+Explanation
+
+If we represent _ as sea level, a step up as /, and a step down as \, the hike can be drawn as:
+
+_/\      _
+   \    /
+    \/\/
+The hiker enters and leaves one valley.
+
+def countingValleys(steps, path):
+    # Write your code here
+    alt = 0
+    v = 0
+    out = True
+    # base on problem, i can start at sea level. 
+    # if more than half path is sea level, there always will be zero valleys in that path.
+    val_in_sealevel = False
+    # since have to find consecutive steps
+    # loop through the path, keep track altitude while looping
+    # get the valley and increase counter
+    for i in range(steps):
+        step = path[i]
+        if step == "U":
+            alt += 1
+        
+        if step == "D":
+            alt -= 1
+        
+        if alt < 0 and out:
+            val_in_sealevel = True
+            out = False
+        if alt > 0 and not out:
+            val_in_sealevel = False
+            out = True
+        if step != "U" and alt == 0 and not val_in_sealevel:
+            v += 1
+    return v
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+    
+
+    steps = int(input().strip())
+
+    path = input()
+
+    result = countingValleys(steps, path)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+speed(0)
+colors = ["red","green","blue","orange","purple","pink","yellow"]
+pencolor(choice(color))
+for x in range(360):
+    pencolor((choice(color)))
+    forward(255)
+    right(123)
+    right(x)
+for x in range(360):
+    pencolor((choice(color)))
+    backward(69)
+    left(74)
+  
+#!/bin/python3
+
+import os
+import sys
+
+#
+# Complete the getMoneySpent function below.
+#
+def getMoneySpent(keyboards, drives, b):
+    ram = 10000
+    for i in range(n):
+        for j in range(m):
+            if keyboards[i]+drives[j] > b:
+                continue
+            if keyboards[i]+drives[j] < ram:
+                ram = keyboards[i]+drives[j]
+    if ram == 10000:
+        return -1
+    return ram
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    bnm = input().split()
+
+    b = int(bnm[0])
+
+    n = int(bnm[1])
+
+    m = int(bnm[2])
+
+    keyboards = list(map(int, input().rstrip().split()))
+
+    drives = list(map(int, input().rstrip().split()))
+
+    #
+    # The maximum amount of money she can spend on a keyboard and USB drive, or -1 if she can't purchase both items
+    #
+
+    moneySpent = getMoneySpent(keyboards, drives, b)
+
+    fptr.write(str(moneySpent) + '\n')
+
+    fptr.close()
+#!/bin/python3
+
+import os
+import sys
+
+#
+# Complete the getMoneySpent function below.
+#
+def getMoneySpent(keyboards, drives, b):
+    #
+    # Write your code here.
+    #
+
+if __name__ == '__main__':
+
+    arr_keyboards=[]
+    m=keyboards.count(max(keyboards))
+    if drives[0]>drives[1]:
+        drive1=drives[0]
+        drive2=drives[1]
+    else:
+        drive1=drives[1]
+        drive2=drives[0]
+
+    n=m*drive2
+
+    if n <= b:
+
+        arr_keyboards.append(max(keyboards))
+        for i in arr_keyboards:
+
+            if i<=keyboards[0]:
+                keyboards.remove(i)
+            elif i<=keyboards[1]:
+                keyboards.remove(i)
+
+        u=max(keyboards)
+        rem=b-n
+        sol=n+u+rem
+
+    else:
+
+        for i in keyboards:
+
+            for j in drives:
+                s=i+j
+
+                if s<=b:
+                    arr_keyboards.append(s)
+            if max(arr_keyboards)==arr_keyboards[-1]:
+                sol=i+j+(b-i-j)
+            else:
+                sol= max(arr_keyboards)
+
+
+    return sol
+bnm=[5,1,2]
+b=int(bnm[0])
+keyboards=[4]
+n=int(bnm[1])
+
+m=int(bnm[2])
+
+drives=[5]
+moneySpent = getMoneySpent(keyboards, drives, b)
+
+print( moneySpent)
+"
+    }
+}
+```
+
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rack-response_headers. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct."
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <time.h>
+
+#include "cpgplot.h"
+
+#define MAX_ITER   500
+#define MAX_PTS    100000
+#define MAX_PLOT   100
+#define MAX_POLY   100
+#define MAX_RAND   100
+#define MAX_FIT    10
+#define MAX_FIT_PARAM  10
+#define MAX_FIT_PARAM_NAME  10
+#define MAX_FIT_PARAM_VALUE 10
+#define MAX_FIT_PARAM_ERROR 10
+#define MAX_FIT_PARAM_FIXED 10
+#define MAX_FIT_PARAM_LIMIT 10
+
+#define MAX_STR   4096
+
+#define MAX_LEVEL  20
+
+#define MAX_COLOR  100
+#define MAX_COLOR_NAME  100
+
+#define MAX_PLOT_COLOR  10
+
+#define MAX_FONT  10
+
+#define MIN(a,b) ((a)<(b)?(a):(b))
+#define MAX(a,b) ((a)>(b)?(a):(b))
+
+#define MAX_DEVICE_NAME  100
+
+#define MAX_DEVICE_TYPE  100
+
+#define MAX_DEVICE_OPT   100
+
+#define MAX_DEVICE_OPT_NAME  100
+
+#define MAX_DEVICE_OPT_VALUE 10
+
+#define MAX_DEVICE_OPT_TYPE  10
+
+#define MAX_DEVICE_OPT_MIN   10
+
+#define MAX_DEVICE_OPT_MAX   10
+
+#define MAX_DEVICE_OPT_UNIT  10
+
+#define MAX_DEVICE_OPT_DESC  100
+
+#define MAX_DEVICE_OPT_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP   10
+
+#define MAX_DEVICE_OPT_GROUP_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_TYPE  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MIN   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_MAX   10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_UNIT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_NAME  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DEFAULT  10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_DESC  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_COMMENT  100
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE_VALUE 10
+
+#define MAX_DEVICE_OPT_GROUP_MEMBER_VALUE_VALUE_VALUE_VALUEpackage com.example.demo.controller;
+
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/getAll")
+    public List<User> getAll() {
+
+        return userService.getAll();
+
+    }
+
+    @GetMapping("/getById/{id}")
+    public User getById(@PathVariable Long id) {
+
+        return userService.getById(id);
+
+    }
+
+    @PostMapping("/save")
+    public void save(@RequestBody User user) {
+
+        userService.save(user);
+
+    }
+
+    @PutMapping("/update")
+    public void update(@RequestBody User user) {
+
+        userService.update(user);
+
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public void deleteById(@PathVariable Long id) {
+
+        userService.deleteById(id);
+
+    }
+}import config
+from time import sleep
+import openai
+import keyboard
+
+from f import get_prompt, type_text
+
+
+def get_code_from_openai(
+    prompt_,
+    model="code-davinci-002",
+    temperature=0.5,
+    max_tokens=100,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0,
+
+):
+    number_of_characters = len(prompt_)
+
+    max_number_of_characters = 20000
+
+    if number_of_characters > max_number_of_characters:
+        print("The prompt is too long. Please shorten it.")
+        prompt_ = prompt_[-max_number_of_characters:]
+
+    number_of_characters = len(prompt_)
+
+    max_tokens = 7000 - number_of_characters // 4
+
+    openai.api_key = config.OPENAI_API_KEY
+    response = openai.Completion.create(
+        model=model,
+        prompt=prompt_,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        frequency_penalty=frequency_penalty,
+        presence_penalty=presence_penalty,
+        stop=["\n\n\n", "###","\r\n\r\n\r\n"],
+    )
+
+    # pretty_print the response
+    import pprint
+
+    pprint.pprint(response)
+
+    text = response.choices[0].text
+
+    print(f"text: {text}")
+
+    with open("openai_response.txt", "a",encoding="utf-8") as file:
+        file.write(text)
+
+    return text
+
+
+def main(model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty):
+
+    prompt = get_prompt()
+
+    text = get_code_from_openai(
+        prompt,
+        model,
+        temperature,
+        max_tokens,
+        top_p,
+        frequency_penalty,
+        presence_penalty,
+    )
+
+    type_text(text)
+
+def speak(text):
+    import win32com.client as wincl
+    speak = wincl.Dispatch("SAPI.SpVoice")
+    speak.Speak(text)
+
+if __name__ == "__main__":
+
+    max_tokens = None
+    temperature = 0.5
+    top_p = 1
+    frequency_penalty = 0.3
+    presence_penalty = 0.1
+    import sys
+
+    if len(sys.argv) > 1:
+        max_tokens = int(sys.argv[1])
+    if len(sys.argv) > 2:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+    if len(sys.argv) > 3:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+    if len(sys.argv) > 4:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+        frequency_penalty = float(sys.argv[4])
+    if len(sys.argv) > 5:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+        frequency_penalty = float(sys.argv[4])
+        presence_penalty = float(sys.argv[5])
+
+    i = 0
+    while True:
+        key = "ctrl+q"
+        if keyboard.is_pressed(key):
+            print(f"{key} pressed")
+
+            main(
+                model="code-davinci-002",
+                temperature=0,
+                max_tokens=max_tokens,
+                top_p=top_p,
+                frequency_penalty=frequency_penalty,
+                presence_penalty=presence_penalty,
+            )
+
+            speak("Done")
+
+        else:
+            sleep(0.1)
+
+# improve above python code
+import config
+from time import sleep
+import openai
+import keyboard
+
+from f import get_prompt, type_text
+
+
+def get_code_from_openai(
+    prompt_,
+    model="code-davinci-002",
+    temperature=0.5,
+    max_tokens=100,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0,
+
+):
+    number_of_characters = len(prompt_)
+
+    max_number_of_characters = 20000
+
+    if number_of_characters > max_number_of_characters:
+        print("The prompt is too long. Please shorten it.")
+        prompt_ = prompt_[-max_number_of_characters:]
+
+    number_of_characters = len(prompt_)
+
+    max_tokens = 7000 - number_of_characters // 4
+
+    openai.api_key = config.OPENAI_API_KEY
+    response = openai.Completion.create(
+        model=model,
+        prompt=prompt_,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        frequency_penalty=frequency_penalty,
+        presence_penalty=presence_penalty,
+        stop=["\n\n\n", "###","\r\n\r\n\r\n"],
+    )
+
+    # pretty_print the response
+    import pprint
+
+    pprint.pprint(response)
+
+    text = response.choices[0].text
+
+    print(f"text: {text}")
+
+    with open("openai_response.txt", "a",encoding="utf-8") as file:
+        file.write(text)
+
+    return text
+
+
+def main(model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty):
+
+    prompt = get_prompt()
+
+    text = get_code_from_openai(
+        prompt,
+        model,
+        temperature,
+        max_tokens,
+        top_p,
+        frequency_penalty,
+        presence_penalty,
+    )
+
+    type_text(text)
+
+def speak(text):
+    import win32com.client as wincl
+    speak = wincl.Dispatch("SAPI.SpVoice")
+    speak.Speak(text)
+
+if __name__ == "__main__":
+
+    max_tokens = None
+    temperature = 0.5
+    top_p = 1
+    frequency_penalty = 0.3
+    presence_penalty = 0.1
+    import sys
+
+    if len(sys.argv) > 1:
+        max_tokens = int(sys.argv[1])
+    elif len(sys.argv) > 2:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+    elif len(sys.argv) > 3:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+    elif len(sys.argv) > 4:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+        frequency_penalty = float(sys.argv[4])
+    elif len(sys.argv) > 5:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+        frequency_penalty = float(sys.argv[4])
+        presence_penalty = float(sys.argv[5])
+        
+    while True:
+        key = "ctrl+q"
+        if keyboard.is_pressed(key):
+            print(f"{key} pressed")
+
+            main(
+                model="code-davinci-002",
+                temperature=0,
+                max_tokens=max_tokens,
+                top_p=top_p,
+                frequency_penalty=frequency_penalty,
+                presence_penalty=presence_penalty,
+            )
+
+            speak("Done")
+
+        else:
+            sleep(0.1)
+
+# improve the time complexity of above python code
+import config
+from time import sleep
+import openai
+import keyboard
+
+from f import get_prompt, type_text
+
+
+def get_code_from_openai(
+    prompt_,
+    model="code-davinci-002",
+    temperature=0.5,
+    max_tokens=100,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0,
+
+):
+    number_of_characters = len(prompt_)
+
+    max_number_of_characters = 20000
+
+    if number_of_characters > max_number_of_characters:
+        print("The prompt is too long. Please shorten it.")
+        prompt_ = prompt_[-max_number_of_characters:]
+
+    number_of_characters = len(prompt_)
+
+    max_tokens = 7000 - number_of_characters // 4
+
+    openai.api_key = config.OPENAI_API_KEY
+    response = openai.Completion.create(
+        model=model,
+        prompt=prompt_,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        frequency_penalty=frequency_penalty,
+        presence_penalty=presence_penalty,
+        stop=["\n\n\n", "###","\r\n\r\n\r\n"],
+    )
+
+    # pretty_print the response
+    import pprint
+
+    pprint.pprint(response)
+
+    text = response.choices[0].text
+
+    print(f"text: {text}")
+
+    with open("openai_response.txt", "a",encoding="utf-8") as file:
+        file.write(text)
+
+    return text
+
+
+def main(model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty):
+
+    prompt = get_prompt()
+
+    text = get_code_from_openai(
+        prompt,
+        model,
+        temperature,
+        max_tokens,
+        top_p,
+        frequency_penalty,
+        presence_penalty,
+    )
+
+    type_text(text)
+
+def speak(text):
+    import win32com.client as wincl
+    speak = wincl.Dispatch("SAPI.SpVoice")
+    speak.Speak(text)
+
+if __name__ == "__main__":
+
+    max_tokens = None
+    temperature = 0.5
+    top_p = 1
+    frequency_penalty = 0.3
+    presence_penalty = 0.1
+    import sys
+
+    if len(sys.argv) > 1:
+        max_tokens = int(sys.argv[1])
+    elif len(sys.argv) > 2:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+    elif len(sys.argv) > 3:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+    elif len(sys.argv) > 4:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+        frequency_penalty = float(sys.argv[4])
+    elif len(sys.argv) > 5:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+        frequency_penalty = float(sys.argv[4])
+        presence_penalty = float(sys.argv[5])
+
+    while True:
+        key = "ctrl+q"
+        if keyboard.is_pressed(key):
+            print(f"{key} pressed")
+
+            main(
+                model="code-davinci-002",
+                temperature=temperature,
+                max_tokens=max_tokens,
+                top_p=top_p,
+                frequency_penalty=frequency_penalty,
+                presence_penalty=presence_penalty,
+            )
+
+            speak("Done")
+
+        else:
+            sleep(0.1)
+
+# improve the time complexity of above python code
+import config
+from time import sleep
+import openai
+import keyboard
+
+from f import get_prompt, type_text
+
+
+def get_code_from_openai(
+    prompt_,
+    model="code-davinci-002",
+    temperature=0.5,
+    max_tokens=100,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0,
+
+):
+    number_of_characters = len(prompt_)
+
+    max_number_of_characters = 20000
+
+    if number_of_characters > max_number_of_characters:
+        print("The prompt is too long. Please shorten it.")
+        prompt_ = prompt_[-max_number_of_characters:]
+
+    number_of_characters = len(prompt_)
+
+    max_tokens = 7000 - number_of_characters // 4
+
+    openai.api_key = config.OPENAI_API_KEY
+    response = openai.Completion.create(
+        model=model,
+        prompt=prompt_,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        frequency_penalty=frequency_penalty,
+        presence_penalty=presence_penalty,
+        stop=["\n\n\n", "###","'", ")", '"',"'", "}","{","\r\n\r\n\r\n"],
+    )
+
+    """
+    Why some emoji is not escaping to their corresponding code in python(there are some weird characters at the end of string).
+    """
+    # pretty_print the response
+    import pprint
+
+    pprint.pprint(response)
+
+    text = response.choices[0].text
+
+    print(f"text: {text}")
+
+    with open("openai_response.txt", "a",encoding="utf-8") as file:
+        file.write(text)
+
+    return text
+
+
+def main(model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty):
+
+    prompt = get_prompt()
+
+    text = get_code_from_openai(
+        prompt,
+        model,
+        temperature,
+        max_tokens,
+        top_p,
+        frequency_penalty,
+        presence_penalty,
+    )
+
+    type_text(text)
+
+def speak(text):
+    import win32com.client as wincl
+    speak = wincl.Dispatch("SAPI.SpVoice")
+    speak.Speak(text)
+
+if __name__ == "__main__":
+
+    max_tokens = None
+    temperature = 1
+    top_p = 1
+    frequency_penalty = 0.3
+    presence_penalty = 0.1
+    import sys
+
+    if len(sys.argv) > 1:
+        max_tokens = int(sys.argv[1])
+    elif len(sys.argv) > 2:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+    elif len(sys.argv) > 3:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+    elif len(sys.argv) > 4:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+        frequency_penalty = float(sys.argv[4])
+    elif len(sys.argv) > 5:
+        max_tokens = int(sys.argv[1])
+        temperature = float(sys.argv[2])
+        top_p = float(sys.argv[3])
+        frequency_penalty = float(sys.argv[4])
+        presence_penalty = float(sys.argv[5])
+
+    while True:
+        key = "ctrl+q"
+        if keyboard.is_pressed(key):
+            print(f"{key} pressed")
+
+            main(
+                model="code-davinci-002",
+                temperature=temperature,
+                max_tokens=max_tokens,
+                top_p=top_p,
+                frequency_penalty=frequency_penalty,
+                presence_penalty=presence_penalty,
+            )
+
+            speak("Done")
+
+        else:
+            sleep(0.1)

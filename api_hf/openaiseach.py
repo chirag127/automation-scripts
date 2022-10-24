@@ -79,7 +79,7 @@ def speak(text):
 if __name__ == "__main__":
 
     max_tokens = None
-    temperature = 0.5
+    temperature = 1
     top_p = 1
     frequency_penalty = 0.3
     presence_penalty = 0.1
@@ -106,7 +106,6 @@ if __name__ == "__main__":
         frequency_penalty = float(sys.argv[4])
         presence_penalty = float(sys.argv[5])
 
-    i = 0
     while True:
         key = "ctrl+q"
         if keyboard.is_pressed(key):
@@ -114,7 +113,7 @@ if __name__ == "__main__":
 
             main(
                 model="code-davinci-002",
-                temperature=0,
+                temperature=temperature,
                 max_tokens=max_tokens,
                 top_p=top_p,
                 frequency_penalty=frequency_penalty,
@@ -125,3 +124,5 @@ if __name__ == "__main__":
 
         else:
             sleep(0.1)
+
+# improve the time complexity of above python code
