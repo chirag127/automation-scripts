@@ -1,3 +1,7 @@
+from time import sleep
+import keyboard
+import pyautogui
+
 # Physical: {X=286,Y=448};
 # Physical: {X=344,Y=499};
 # Physical: {X=1720,Y=165}
@@ -5,95 +9,53 @@
 # Physical: {X=659,Y=447};
 # Physical: {X=802,Y=518};
 # Physical: {X=1447,Y=706}
-
-
-import keyboard
-import pyautogui
-from time import sleep
-
-def main():
-
+def main() -> None:
     "create a new untitled project"
-
     "integration to a"
-
     pyautogui.click(286, 448)
-
-
     pyautogui.click(344, 499)
-
     sleep(3)
-
-# Physical: {X=170,Y=230};
-# Physical: {X=646,Y=463};
-# Physical: {X=642,Y=519};
-# Physical: {X=1441,Y=710};
-
     pyautogui.click(170, 230)
-
     sleep(1)
-
     pyautogui.click(646, 463)
-
     sleep(1)
-
     pyautogui.click(642, 519)
-
     pyautogui.typewrite("drive")
-
     pyautogui.click(1441, 710)
-
     sleep(1)
 
 
-def main2():
+def main2() -> None:
+    """
+    This is a multi-line Google style docstring.
 
+    Args:
+        None
 
-# Physical: {X=1440,Y=197};
-# Physical: {X=1345,Y=252};
-# Physical: {X=702,Y=548};
-# Physical: {X=669,Y=584};
-# Physical: {X=657,Y=625};
-# Physical: {X=863,Y=563};
-# Physical: {X=1213,Y=700};
-
+    Returns:
+        None
+    """
     pyautogui.click(1440, 197)
-
     sleep(1)
-
     pyautogui.click(1345, 252)
-
     sleep(1)
-
     pyautogui.click(702, 548)
-
     sleep(1)
-
     pyautogui.click(669, 584)
-
-
     sleep(1)
-
     pyautogui.click(657, 613)
-
     sleep(1)
-
     pyautogui.click(863, 563)
-
     sleep(1)
-
     pyautogui.click(1213, 700)
-
     sleep(1)
+
 
 if __name__ == "__main__":
-
     while True:
-
-        if keyboard.is_pressed('ctrl + q'):
+        if keyboard.is_pressed("ctrl + q"):
             main()
-
-        if keyboard.is_pressed('ctrl + b'):
+        if keyboard.is_pressed("ctrl + b"):
             main2()
         else:
             sleep(0.1)

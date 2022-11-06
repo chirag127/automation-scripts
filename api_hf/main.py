@@ -1,21 +1,26 @@
 import sys
 from time import sleep
-
 import keyboard
 from bd import bd
-
 from f import bloom, get_prompt, search_google, type_text
 from openaiseach import get_code_from_openai
 
 
-def main(api):
-    prompt = get_prompt()
+def main(api: str) -> None:  # type: ignore
+    """
+    This is a multi-line Google style docstring.
 
+    Args:
+        api: The API to use.
+
+    Returns:
+        None
+    """
+    prompt = get_prompt()
     if api == "google":
         search_google(prompt)
         text = False
     elif api == "openai":
-
         text = get_code_from_openai(
             prompt,
             model="code-davinci-002",
@@ -24,7 +29,6 @@ def main(api):
             frequency_penalty=0.3,
             presence_penalty=0.1,
         )
-
     elif api == "bloom":
         text = bloom(prompt)
     elif api == "bd":
@@ -45,9 +49,7 @@ def main(api):
             print(bd(prompt))
         except:
             pass
-
         return
-
     type_text(text)
 
 
