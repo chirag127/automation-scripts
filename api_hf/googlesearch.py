@@ -7,9 +7,7 @@ def main():
 
     prompt = get_prompt()
 
-    text = search_google(prompt)
-
-    type_text(text)
+    search_google(prompt)
 
 
 if __name__ == "__main__":

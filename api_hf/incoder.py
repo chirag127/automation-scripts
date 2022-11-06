@@ -1,87 +1,71 @@
 from f import get_prompt, type_text
 
 
-def get_code_from_metaai(prompt, max_tokens=None, temperature=0):
+def get_code_from_metaai(
+    prompt: str, max_tokens: int = None, temperature: int = 0
+) -> str:
+    """
+    Get code from metaai.
 
+    :param prompt: The prompt to use.
+    :param max_tokens: The maximum number of tokens to use.
+    :param temperature: The temperature to use.
+    :return: The code.
+    """
     if max_tokens is None:
         max_tokens = 320
-
     send_data = {
         "length": max_tokens,
         "temperature": temperature,
         "extra_sentinel": False,
         "prompt": prompt,
     }
-
     # convert above js code to python code:
     import base64
     import json
 
     stringified = json.dumps(send_data)
     encoded_data = base64.b64encode(stringified.encode("utf-8"))
-
     print(f"encoded_data: {encoded_data}")
-
     # remove the b' from the beginning of the string:
     encoded_data = encoded_data.decode("utf-8")
-
     print(f"encoded_data: {encoded_data}")
-
     # remove all = from the string:
     encoded_data = encoded_data.replace("=", "")
-
     print(f"encoded_data: {encoded_data}")
     import requests
 
     url = f"https://hf.space/embed/facebook/incoder-demo/generate?info={encoded_data}"
-
     print(f"url: {url}")
-
     response = requests.get(url)
-
     print(f"response: {response}")
-
     lenght_of_prompt = len(prompt)
     response = json.loads(response.text)
     text = response["text"]
-
     text_without_prompt = text[lenght_of_prompt:]
-
     return text_without_prompt
 
-    # return text
 
-
-def main(max_tokens=None, temperature=0):
-
+def main(max_tokens: int = None, temperature: float = 0) -> None:
     prompt, number_of_characters = get_prompt()
-
     n = 500
-
     if number_of_characters > n:
         print(f"prompt is too long, so truncate it to {n} characters from the right")
         prompt = prompt[-n:]
-
         number_of_characters = len(prompt)
-
         print(f"number_of_characters: {number_of_characters}")
-
     if max_tokens is None:
         max_tokens = 2048 - number_of_characters // 4
-
         print(f"max_tokens: {max_tokens}")
-
     text = get_code_from_metaai(
         prompt,
         max_tokens,
         temperature,
     )
-
     type_text(text)
 
 
 if __name__ == "__main__":
-
     max_tokens = None
     temperature = 0.6
     import sys
@@ -91,15 +75,13 @@ if __name__ == "__main__":
     elif len(sys.argv) > 2:
         max_tokens = int(sys.argv[1])
         temperature = float(sys.argv[2])
-
     elif len(sys.argv) > 3:
         max_tokens = int(sys.argv[1])
         temperature = float(sys.argv[2])
         print("too many arguments")
         exit()
-
-    import keyboard
     from time import sleep
+    import keyboard
 
     i = 0
     while True:
