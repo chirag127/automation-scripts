@@ -4,7 +4,12 @@ from time import sleep
 import pyautogui
 import requests
 from random_username.generate import generate_username
-
+# Physical: {X=649,Y=663};
+# Physical: {X=824,Y=513};
+# Physical: {X=698,Y=637};
+# Physical: {X=822,Y=675};
+# Physical: {X=1603,Y=707}
+# Physical: {X=1574,Y=804}
 # import a library that gives random usernames
 def main() -> None:
     # Open a URL named deepnote.com and then click the coordinates mentioned above with the time delay of one second
