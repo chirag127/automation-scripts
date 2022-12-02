@@ -20,26 +20,38 @@
 def main():
     import requests
     import json
+
     url = "https://playground-api.forefront.link/api/models/gpt-j"
-    payload = {"text":"# print hello\n\n\ndef main():\n    print(\"Hello, world!\")\n    import time\n    time.sleep(10)\n    print(\"End!\")\n    \ndef main():\n    print(\"Hello, world!\")\n    import time\n    time.sleep(10)\n    print(\"End!\")\n\t\ndef main():\n    print(\"Hello, world!\")\n    import time\n    time.sleep(10)\n    print(\"End!\")","length":64,"temperature":0.8,"top_p":1,"top_k":40,"repetition_penalty":1,"stop":[],"bad_words":[],"logit_bias":{}}
-    headers = {
-        'authority': 'playground-api.forefront.link',
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'en-US,en;q=0.9',
-        'authorization': 'Bearer',
-        'content-type': 'application/json',
-        'origin': 'https://playground.helloforefront.com',
-        'referer': 'https://playground.helloforefront.com/',
-        'sec-ch-ua': '"Microsoft Edge";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'cross-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.35'
+    payload = {
+        "text": '# print hello\n\n\ndef main():\n    print("Hello, world!")\n    import time\n    time.sleep(10)\n    print("End!")\n    \ndef main():\n    print("Hello, world!")\n    import time\n    time.sleep(10)\n    print("End!")\n\t\ndef main():\n    print("Hello, world!")\n    import time\n    time.sleep(10)\n    print("End!")',
+        "length": 64,
+        "temperature": 0.8,
+        "top_p": 1,
+        "top_k": 40,
+        "repetition_penalty": 1,
+        "stop": [],
+        "bad_words": [],
+        "logit_bias": {},
     }
-    response = requests.request("POST", url, headers=headers, data = json.dumps(payload))
-    print(response.text.encode('utf8'))
+    headers = {
+        "authority": "playground-api.forefront.link",
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "en-US,en;q=0.9",
+        "authorization": "Bearer",
+        "content-type": "application/json",
+        "origin": "https://playground.helloforefront.com",
+        "referer": "https://playground.helloforefront.com/",
+        "sec-ch-ua": '"Microsoft Edge";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "cross-site",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.35",
+    }
+    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
+    print(response.text.encode("utf8"))
+
 
 if __name__ == "__main__":
     for i in range(10):
