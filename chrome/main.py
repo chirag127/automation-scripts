@@ -1,5 +1,3 @@
-
-
 import os
 from time import sleep
 import pyautogui
@@ -21,8 +19,8 @@ def return_image_path(path, url):
         print("Image found")
     return path
 
-def main():
 
+def main():
 
     button7location = pyautogui.position()
 
@@ -34,15 +32,11 @@ def main():
 
     pyautogui.click(buttonx, buttony + 90)
 
-    sleep(.4)
+    sleep(0.4)
 
     pyautogui.click(1174, 618)
 
     pyautogui.moveTo(button7location)
-
-
-
-
 
 
 import keyboard

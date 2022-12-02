@@ -4,6 +4,7 @@ from time import sleep
 import pyautogui
 import requests
 from random_username.generate import generate_username
+
 # Physical: {X=649,Y=663};
 # Physical: {X=824,Y=513};
 # Physical: {X=698,Y=637};
