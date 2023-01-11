@@ -34,6 +34,8 @@ def get_edited_code_from_openai(
     number_of_characters = len(prompt_)
     max_tokens = 7000 - number_of_characters // 4
     openai.api_key = config.OPENAI_API_KEY
+
+    prompt_ = "# the follow is the description of the problem, please edit the code at last to solve the below problem\n" + prompt_ + "\n#  please edit the above code\n"
     response = openai.Edit.create(
         input=prompt_,
         instruction=instruction,
