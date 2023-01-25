@@ -18,10 +18,13 @@ def main() -> None:
     pyautogui.click(1096, 565)
 
 
+    pyautogui.click(current_x, current_y)
+
+
 if __name__ == "__main__":
 
     while True:
-        if keyboard.is_pressed("ctrl + a"):
+        if keyboard.is_pressed("a"):
             main()
         else:
             sleep(0.1)
