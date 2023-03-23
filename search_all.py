@@ -58,7 +58,7 @@ for i in search_term:
 
     # webbrowser.open("https://neeva.com/search?q="+i+" book summary")
 
-    webbrowser.open("https://www.google.com/search?q="+i+" online&authuser=5")
+    webbrowser.open("https://www.bing.com/search?q="+i+" online&authuser=5")
 
     sleep(5)
 
