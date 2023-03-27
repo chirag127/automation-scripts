@@ -16,9 +16,17 @@ def main() -> None:
     sleep(0.3)
 
     pyautogui.click(1096, 565)
+    sleep(0.3)
 
 
     pyautogui.click(current_x, current_y)
+
+    sleep(0.3)
+
+
+    pyautogui.click(current_x, current_y)
+
+
 
 
 if __name__ == "__main__":
