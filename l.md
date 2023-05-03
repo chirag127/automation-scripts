@@ -1,17 +1,45 @@
+To
+
+RTO Ghaziabad
+
+Uttar Pradesh
+
+India
+
+Subject: Request for information about the driving license test for an MCWOG at the RTO Ghaziabad
+
+Chirag Singhal
+
+S/O Mr. Vikaas Singhal
+
+H.No. 11, Sector 23, Sanjay Nagar
+
+Ghaziabad, Uttar Pradesh
+
+India
+
+Pin Code: 201002
+
+E-mail: Chiragsinghal127@gmail.com
+
+Mobile: +91 7428449707
+
+
 
 Dear Sir/Madam,
 
-I am writing to request specific details regarding the driving license test for a Motor Cycle Without Gear (MCWG) at the RTO Ghaziabad. As a resident of Ghaziabad, I am currently preparing to take the driving license test for an MCWG and would like to ensure that I am fully aware of all the activities that will be involved in the test.
+I am writing to request information about the driving license test for an MCWOG at the RTO Ghaziabad. As a resident of Ghaziabad, I am preparing to take the test and I would like to know the specifics of the driving maneuvers and techniques that will be assessed during the test.
 
-Could you please provide me with a detailed list of the driving maneuvers and techniques that will be assessed during the driving test for an MCWG? I would like to know the types of activities that will be included, such as balancing, starting and stopping, turning, and other similar driving maneuvers specific to MCWG.
+I am particularly anxious about the possibility of having to make an "8" using a scooty during the test. While I have been practicing riding the scooty on the road and following all the rules of the learning license, I still feel uncertain about whether I will be able to pass the test. This uncertainty is causing me significant anxiety and exam fear.
 
-Furthermore, I would appreciate it if you could also inform me about any additional activities that will be included in the test, such as a written test or a vision test, specific to MCWG. If so, please provide details on the format and content of these tests.
+Therefore, I would appreciate it if you could provide me with a detailed list of the driving maneuvers and techniques that will be assessed during the MCWOG driving test, including any specific maneuvers such as balancing, starting and stopping, turning, or other activities that are unique to the MCWOG.
 
-I would also like to request information on the scoring system and the passing criteria for the MCWG driving license test. This will help me understand the level of proficiency required to pass the test and obtain my MCWG driving license.
+Additionally, if there are any other activities that will be included in the test, such as a written test or a vision test specific to MCWOG, please provide details on the format and content of these tests.
 
-I understand that the driving license test is a critical step in obtaining a driving license for an MCWG, and I appreciate your assistance in providing me with the necessary details to prepare for the test.
+Furthermore, I would also like to request information on the scoring system and passing criteria for the MCWOG driving license test. This will help me understand the level of proficiency required to pass the test and obtain my MCWOG driving license.
 
-Thank you for your time and consideration.
+Thank you for your time and consideration. I look forward to your response.
 
 Sincerely,
+
 Chirag Singhal
