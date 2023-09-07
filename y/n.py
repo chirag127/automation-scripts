@@ -4,7 +4,7 @@ from time import sleep
 
 sleep(8)
 
-for i in range(20):
+for i in range(100):
     pyautogui.typewrite("n")
 
-    sleep(2)
+    sleep(4)
