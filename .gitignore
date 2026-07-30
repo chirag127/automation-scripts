@@ -138,3 +138,13 @@ dmypy.json
 cython_debug/
 cofig.py
 api_hf/config.py
+ai-apis/api_hf/config.py
+
+# secrets
+.env
+
+# large output files (moved to GitHub Release)
+*.pdf
+openai_response.txt
+misc/scraped_content.txt
+
